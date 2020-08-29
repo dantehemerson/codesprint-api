@@ -2,6 +2,9 @@ import express from 'express';
 
 const app = express();
 
+app.use(express.json());
+
+
 const portNumber = 3333;
 
 app.listen(portNumber, () => {
