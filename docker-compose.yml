@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5437:5432
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: postgres
+      POSTGRES_DB: codesprint
+    volumes:
+      - ./.database:/var/lib/postgresql/data
