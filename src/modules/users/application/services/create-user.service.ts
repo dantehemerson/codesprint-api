@@ -1,11 +1,8 @@
-import { injectable, inject } from 'tsyringe';
-
+import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
 import AppError from '@shared/errors/app.error';
-
-import { IUsersRepository } from '@modules/users/repositories/user-repository.interface';
-import User from '../infra/typeorm/entities/user';
-
-import { HashProvider } from '../providers/hash-provider/models/hash-provider.interface';
+import { inject, injectable } from 'tsyringe';
+import { HashProvider } from '../../domain/interfaces/hash-provider.interface';
+import User from '../../infra/persistence/typeorm/entities/user';
 
 interface IRequestDTO {
 	name: string;
@@ -33,7 +30,6 @@ class CreateUserService {
 		}
 
 		const hashedPassword = await this.hashProvider.generateHash(password);
-		console.log('Dante: CreateUserService -> hashedPassword', hashedPassword);
 
 		const user = await this.usersRepository.create({
 			name,

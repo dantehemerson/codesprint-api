@@ -1,12 +1,11 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateUserService from '@modules/users/services/create-user.service';
+import CreateUserService from '@modules/users/application/services/create-user.service';
 
 export default class UsersController {
 	public async create(req: Request, res: Response): Promise<Response> {
 		const { name, email, password } = req.body;
-		console.log('Dante: UsersController -> password', password);
 
 		const createUser = container.resolve(CreateUserService);
 
