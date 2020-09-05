@@ -1,14 +1,9 @@
+import ICreateUserDTO from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
 import AppError from '@shared/errors/app.error';
 import { inject, injectable } from 'tsyringe';
 import { HashProvider } from '../../domain/interfaces/hash-provider.interface';
 import User from '../../infra/persistence/typeorm/entities/user';
-
-interface IRequestDTO {
-	name: string;
-	email: string;
-	password: string;
-}
 
 @injectable()
 class CreateUserService {
@@ -20,7 +15,11 @@ class CreateUserService {
 		private hashProvider: HashProvider,
 	) {}
 
-	public async execute({ name, email, password }: IRequestDTO): Promise<User> {
+	public async execute({
+		name,
+		email,
+		password,
+	}: ICreateUserDTO): Promise<User> {
 		const checkUserExists = await this.usersRepository.findByEmail(email);
 
 		if (checkUserExists) {
