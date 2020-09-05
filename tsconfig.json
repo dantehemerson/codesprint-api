@@ -1,11 +1,14 @@
 {
 	"compilerOptions": {
-		"target": "es5",
+		"target": "es2017",
 		"module": "commonjs",
 		"outDir": "./dist",
 		"strict": true,
+		"allowJs": false,
+		"suppressImplicitAnyIndexErrors": true,
 		"strictPropertyInitialization": false,
 		"baseUrl": "./src",
+		"importHelpers": true,
 		"paths": {
 			"@modules/*": ["modules/*"],
 			"@config/*": ["config/*"],

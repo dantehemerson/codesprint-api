@@ -1,9 +1,10 @@
 import ICreateUserDTO from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
-import AppError from '@shared/errors/app.error';
 import { inject, injectable } from 'tsyringe';
 import { HashProvider } from '../../domain/interfaces/hash-provider.interface';
 import User from '../../infra/persistence/typeorm/entities/user';
+import { HttpException } from '@shared/exceptions/http.exception';
+import { ConflictException } from '@shared/exceptions/conflict.exception';
 
 @injectable()
 class CreateUserService {
@@ -23,7 +24,7 @@ class CreateUserService {
 		const checkUserExists = await this.usersRepository.findByEmail(email);
 
 		if (checkUserExists) {
-			throw new AppError(
+			throw new ConflictException(
 				`An user with the same email ${email} already exists.`,
 			);
 		}

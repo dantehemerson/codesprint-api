@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import AppError from '@shared/errors/app.error';
+import { HttpException, isObject } from '@shared/exceptions/http.exception';
 
 export function errorHandler(
 	err: Error,
@@ -7,15 +7,22 @@ export function errorHandler(
 	res: Response,
 	next_: NextFunction,
 ) {
-	if (err instanceof AppError) {
-		return res
-			.status(err.statusCode)
-			.json({ status: 'error', message: err.message });
+	if (!(err instanceof HttpException)) {
+		return res.status(500).json({
+			status: 'error',
+			message: 'Internal server error',
+			// Show in local only
+			stack: err.stack,
+		});
 	}
 
-	console.error(err);
+	const response = err.getResponse();
+	const message = isObject(response)
+		? response
+		: {
+				statusCode: err.getStatus(),
+				message: response,
+		  };
 
-	return res
-		.status(500)
-		.json({ status: 'error', message: 'Internal server error' });
+	return res.status(err.getStatus()).json(message);
 }
