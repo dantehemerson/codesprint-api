@@ -17,11 +17,11 @@ class User {
 	@Column()
 	email: string;
 
-	@Column()
+	@Column({ select: false })
 	password: string;
 
-	@Column()
-	avatar: string;
+	@Column({ nullable: true })
+	avatar?: string;
 
 	@CreateDateColumn()
 	created_at: Date;

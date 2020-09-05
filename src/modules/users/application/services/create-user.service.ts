@@ -3,11 +3,10 @@ import { IUsersRepository } from '@modules/users/domain/interfaces/user-reposito
 import { inject, injectable } from 'tsyringe';
 import { HashProvider } from '../../domain/interfaces/hash-provider.interface';
 import User from '../../infra/persistence/typeorm/entities/user';
-import { HttpException } from '@shared/exceptions/http.exception';
 import { ConflictException } from '@shared/exceptions/conflict.exception';
 
 @injectable()
-class CreateUserService {
+export class CreateUserService {
 	constructor(
 		@inject('UsersRepository')
 		private usersRepository: IUsersRepository,
@@ -16,11 +15,7 @@ class CreateUserService {
 		private hashProvider: HashProvider,
 	) {}
 
-	public async execute({
-		name,
-		email,
-		password,
-	}: ICreateUserDTO): Promise<User> {
+	async execute({ name, email, password }: ICreateUserDTO): Promise<User> {
 		const checkUserExists = await this.usersRepository.findByEmail(email);
 
 		if (checkUserExists) {
@@ -40,5 +35,3 @@ class CreateUserService {
 		return user;
 	}
 }
-
-export default CreateUserService;
