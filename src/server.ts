@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import express from 'express';
 import 'express-async-errors';
-import './database';
+import '@shared/infra/typeorm';
 import { routes } from '@shared/infra/http/routes/routes';
 
 import '@shared/container';
