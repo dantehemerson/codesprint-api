@@ -27,12 +27,43 @@
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "no-useless-constructor": "off",
-    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-unused-vars": ["error", {
       "argsIgnorePattern": "_$"
-    }],
-		"@typescript-eslint/naming-convention": ["error", { "prefixWithI": "always"	}],
-    "import/extensions": [
+		}],
+		"camelcase": "off",
+		"@typescript-eslint/naming-convention":  [
+			"error",
+			{
+				"selector": "default",
+				"format": ["camelCase"]
+			},
+			{
+				"selector": "variable",
+				"format": ["camelCase", "snake_case"]
+			},
+			{
+				"selector": "parameter",
+				"format": ["camelCase", "snake_case"],
+				"leadingUnderscore": "allow"
+			},
+			{
+				"selector": "typeLike",
+				"format": ["PascalCase"]
+			},
+			{
+				"selector": "property",
+				"format": ["camelCase", "snake_case"]
+			},
+			{
+				"selector": "interface",
+				"format": ["PascalCase"],
+				"custom": {
+					"regex": "^I[A-Z]",
+					"match": true
+				}
+			}
+		],
+		"import/extensions": [
       "error",
       "ignorePackages",
       {
