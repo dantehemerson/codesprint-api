@@ -7,8 +7,6 @@ export default class CategoriesController {
 	public async create(req: Request, res: Response): Promise<Response> {
 		const { title, parent_id } = req.body;
 
-		console.log('ok: categories controller');
-
 		const createCategory = container.resolve(CreateCategoryService);
 
 		const category = await createCategory.execute({

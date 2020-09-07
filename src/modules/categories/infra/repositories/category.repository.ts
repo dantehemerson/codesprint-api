@@ -17,9 +17,7 @@ class CategoriesRepository implements ICategoriesRepository {
 	}
 
 	async findByTitle(title: string): Promise<Category | undefined> {
-		console.log('findbytitle:ok', title);
 		const category = await this.ormRepository.findOne({ where: { title } });
-		console.log('findbytitle:finished');
 		return category;
 	}
 
