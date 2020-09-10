@@ -1,9 +1,9 @@
 import { CreateUserService } from '@modules/users/application/services/create-user.service';
 import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
-import User from '@modules/users/infra/persistence/typeorm/entities/user.entity';
-import { Body, JsonController, Post, HttpCode } from 'routing-controllers';
-import { container } from 'tsyringe';
+import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
 import { HttpStatus } from '@shared/enums/http-status.enum';
+import { Body, HttpCode, JsonController, Post } from 'routing-controllers';
+import { container } from 'tsyringe';
 
 @JsonController('/users')
 export default class UsersController {

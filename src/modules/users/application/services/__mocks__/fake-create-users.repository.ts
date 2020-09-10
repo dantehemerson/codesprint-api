@@ -1,6 +1,6 @@
+import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
-import {CreateUserDto} from '@modules/users/domain/dto/create-user.dto';
-import User from '@modules/users/infra/persistence/typeorm/entities/user.entity';
+import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
 
 type Optional<T> = T | undefined
 

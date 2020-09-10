@@ -1,9 +1,9 @@
 import { getRepository, Repository } from 'typeorm';
-import ICategoriesRepository from '@modules/categories/domain/interfaces/category-repository.interface';
+import { ICategoriesRepository } from '@modules/categories/domain/interfaces/category-repository.interface';
 import { CreateCategoryDto } from '@modules/categories/domain/dto/create-category.dto';
-import Category from '@modules/categories/infra/persistence/typeorm/entities/Category';
+import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
 
-class CategoriesRepository implements ICategoriesRepository {
+export class CategoriesRepository implements ICategoriesRepository {
 	private ormRepository: Repository<Category>;
 
 	constructor() {
@@ -30,5 +30,3 @@ class CategoriesRepository implements ICategoriesRepository {
 		return this.ormRepository.save(category);
 	}
 }
-
-export default CategoriesRepository;

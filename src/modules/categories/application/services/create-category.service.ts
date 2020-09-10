@@ -1,14 +1,14 @@
 import { CreateCategoryDto } from '@modules/categories/domain/dto/create-category.dto';
-import ICategoryRepository from '@modules/categories/domain/interfaces/category-repository.interface';
-import Category from '@modules/categories/infra/persistence/typeorm/entities/Category';
+import { ICategoriesRepository } from '@modules/categories/domain/interfaces/category-repository.interface';
+import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
 import { ConflictException } from '@shared/exceptions/conflict.exception';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
-export default class CreateCategoryService {
+export class CreateCategoryService {
 	constructor(
 		@inject('CategoriesRepository')
-		private categoriesRepository: ICategoryRepository,
+		private categoriesRepository: ICategoriesRepository,
 	) {}
 
 	async execute({ title, parent_id }: CreateCategoryDto): Promise<Category> {

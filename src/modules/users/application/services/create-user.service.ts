@@ -1,9 +1,9 @@
 import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
+import { ConflictException } from '@shared/exceptions/conflict.exception';
 import { inject, injectable } from 'tsyringe';
 import { IHashProvider } from '../../domain/interfaces/hash-provider.interface';
-import User from '../../infra/persistence/typeorm/entities/user.entity';
-import { ConflictException } from '@shared/exceptions/conflict.exception';
+import { User } from '../../infra/persistence/typeorm/entities/user.entity';
 
 @injectable()
 export class CreateUserService {
