@@ -1,4 +1,4 @@
-import { ICreateUserDto } from '@modules/users/domain/dto/create-user.dto';
+import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
 import { inject, injectable } from 'tsyringe';
 import { IHashProvider } from '../../domain/interfaces/hash-provider.interface';
@@ -15,7 +15,7 @@ export class CreateUserService {
 		private hashProvider: IHashProvider,
 	) {}
 
-	async execute({ name, email, password }: ICreateUserDto): Promise<User> {
+	async execute({ name, email, password }: CreateUserDto): Promise<User> {
 		const checkUserExists = await this.usersRepository.findByEmail(email);
 
 		if (checkUserExists) {
