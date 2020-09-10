@@ -1,11 +1,13 @@
 import { CreateUserService } from '@modules/users/application/services/create-user.service';
 import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import User from '@modules/users/infra/persistence/typeorm/entities/user.entity';
-import { Body, JsonController, Post } from 'routing-controllers';
+import { Body, JsonController, Post, HttpCode } from 'routing-controllers';
 import { container } from 'tsyringe';
+import { HttpStatus } from '@shared/enums/http-status.enum';
 
 @JsonController('/users')
 export default class UsersController {
+	@HttpCode(HttpStatus.CREATED)
 	@Post()
 	public async create(@Body() body: CreateUserDto): Promise<Omit<User, 'password'>> {
 		const { name, email, password } = body;

@@ -3,7 +3,6 @@ import { FakeHashProvider } from '@modules/users/application/services/__mocks__/
 
 import { CreateUserService } from './create-user.service';
 import { ConflictException } from '@shared/exceptions/conflict.exception';
-import { NotFoundException } from '@shared/exceptions/not-found.exception';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
