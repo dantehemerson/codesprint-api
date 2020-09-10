@@ -1,8 +1,8 @@
 import { CreateCategoryDto } from '@modules/categories/domain/dto/create-category.dto';
 import { ICategoriesRepository } from '@modules/categories/domain/interfaces/category-repository.interface';
 import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
-import { ConflictException } from '@shared/exceptions/conflict.exception';
 import { inject, injectable } from 'tsyringe';
+import { ConflictError } from '@shared/errors/conflict.error';
 
 @injectable()
 export class CreateCategoryService {
@@ -17,7 +17,7 @@ export class CreateCategoryService {
 		);
 
 		if (checkCategoryExists) {
-			throw new ConflictException(
+			throw new ConflictError(
 				`An category with the same title ${title} already exists.`,
 			);
 		}
