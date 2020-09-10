@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import 'express-async-errors';
 import '@shared/infra/typeorm';
 import { createExpressServer} from 'routing-controllers'
 import '@shared/container';
