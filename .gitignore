@@ -4,3 +4,4 @@ node_modules/
 # (Docker) database volume data
 .database
 coverage
+dist/
