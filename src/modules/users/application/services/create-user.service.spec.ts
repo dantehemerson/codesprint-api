@@ -1,9 +1,7 @@
 import { FakeUsersRepository } from '@modules/users/application/services/__mocks__/fake-create-users.repository';
 import { FakeHashProvider } from '@modules/users/application/services/__mocks__/fake-hash.provider';
-
+import { ConflictError } from '@shared/errors/conflict.error';
 import { CreateUserService } from './create-user.service';
-import { ConflictException } from '@shared/exceptions/conflict.exception';
-import { NotFoundException } from '@shared/exceptions/not-found.exception';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
@@ -42,7 +40,7 @@ describe('CreateUserService', () => {
 				password: 'abcd'
 			})
 		} catch(error) {
-			expect(error).toBeInstanceOf(ConflictException);
+			expect(error).toBeInstanceOf(ConflictError);
 		}
 	})
 

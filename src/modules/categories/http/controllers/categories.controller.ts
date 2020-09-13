@@ -1,11 +1,16 @@
-import { Request, Response } from 'express';
+import { CreateCategoryService } from '@modules/categories/application/services/create-category.service';
+import { CreateCategoryDto } from '@modules/categories/domain/dto/create-category.dto';
+import { HttpStatus } from '@shared/enums/http-status.enum';
+import { Body, HttpCode, JsonController, Post } from 'routing-controllers';
 import { container } from 'tsyringe';
+import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
 
-import CreateCategoryService from '@modules/categories/application/services/create-category.service';
-
+@JsonController('/categories')
 export default class CategoriesController {
-	public async create(req: Request, res: Response): Promise<Response> {
-		const { title, parent_id } = req.body;
+	@HttpCode(HttpStatus.CREATED)
+	@Post()
+	public async create(@Body() body: CreateCategoryDto): Promise<Category> {
+		const { title, parent_id } = body;
 
 		const createCategory = container.resolve(CreateCategoryService);
 
@@ -14,6 +19,6 @@ export default class CategoriesController {
 			parent_id,
 		});
 
-		return res.json(category);
+		return category
 	}
 }

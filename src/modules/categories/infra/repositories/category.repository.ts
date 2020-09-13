@@ -1,9 +1,9 @@
 import { getRepository, Repository } from 'typeorm';
-import ICategoriesRepository from '@modules/categories/domain/interfaces/category-repository.interface';
-import ICreateCategoryDTO from '@modules/categories/domain/dto/create-category.dto';
-import Category from '@modules/categories/infra/persistence/typeorm/entities/Category';
+import { ICategoriesRepository } from '@modules/categories/domain/interfaces/category-repository.interface';
+import { CreateCategoryDto } from '@modules/categories/domain/dto/create-category.dto';
+import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
 
-class CategoriesRepository implements ICategoriesRepository {
+export class CategoriesRepository implements ICategoriesRepository {
 	private ormRepository: Repository<Category>;
 
 	constructor() {
@@ -21,7 +21,7 @@ class CategoriesRepository implements ICategoriesRepository {
 		return category;
 	}
 
-	async create(categoryData: ICreateCategoryDTO): Promise<Category> {
+	async create(categoryData: CreateCategoryDto): Promise<Category> {
 		const category = await this.ormRepository.create(categoryData);
 		return this.save(category);
 	}
@@ -30,5 +30,3 @@ class CategoriesRepository implements ICategoriesRepository {
 		return this.ormRepository.save(category);
 	}
 }
-
-export default CategoriesRepository;

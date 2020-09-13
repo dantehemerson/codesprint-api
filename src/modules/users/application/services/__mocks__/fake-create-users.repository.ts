@@ -1,6 +1,6 @@
+import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
-import {ICreateUserDto} from '@modules/users/domain/dto/create-user.dto';
-import User from '@modules/users/infra/persistence/typeorm/entities/user.entity';
+import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
 
 type Optional<T> = T | undefined
 
@@ -19,7 +19,7 @@ export class FakeUsersRepository implements IUsersRepository {
     return findUser;
   }
 
-  public async create(userData: ICreateUserDto): Promise<User> {
+  public async create(userData: CreateUserDto): Promise<User> {
     const user = new User();
 
     Object.assign(user, {

@@ -1,7 +1,7 @@
-import { getRepository, Repository } from 'typeorm';
+import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
-import { ICreateUserDto } from '@modules/users/domain/dto/create-user.dto';
-import User from '@modules/users/infra/persistence/typeorm/entities/user.entity';
+import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
+import { getRepository, Repository } from 'typeorm';
 
 class UsersRepository implements IUsersRepository {
 	private ormRepository: Repository<User>;
@@ -22,7 +22,7 @@ class UsersRepository implements IUsersRepository {
 		return user;
 	}
 
-	async create(userData: ICreateUserDto): Promise<User> {
+	async create(userData: CreateUserDto): Promise<User> {
 		const user = await this.ormRepository.create(userData);
 		return this.save(user);
 	}
