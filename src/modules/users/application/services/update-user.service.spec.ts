@@ -4,6 +4,7 @@ import { ConflictError } from '@shared/errors/conflict.error';
 import faker from 'faker';
 import { NotFoundError } from 'routing-controllers';
 import { UpdateUserService } from './update-user.service';
+import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
 
 describe(UpdateUserService.name, () => {
 	let fakeUsersRepository: FakeUsersRepository;
@@ -49,7 +50,7 @@ describe(UpdateUserService.name, () => {
 				password: 'abc'
 			})
 
-			const userData = {
+			const userData: UpdateUserDto = {
 				email: 'already@email.com',
 			}
 
@@ -70,7 +71,7 @@ describe(UpdateUserService.name, () => {
 				password: 'abc'
 			})
 
-			const userData = {
+			const userData: UpdateUserDto = {
 				email: 'john@email.com',
 			}
 
@@ -94,7 +95,7 @@ describe(UpdateUserService.name, () => {
 				password: 'abc'
 			})
 
-			const userData = {
+			const userData: UpdateUserDto = {
 				name: 'New Name',
 				password: 'newpassword'
 			}
@@ -107,6 +108,48 @@ describe(UpdateUserService.name, () => {
 			/** should be called to find for user */
 			expect(spyFindUsersRepository).toHaveBeenCalled()
 			expect(spyFindEmailUsersRepository).not.toHaveBeenCalled()
+		})
+	})
+
+	describe('when password is passed', () => {
+		it('should hash password and save it',async () => {
+			const { id } = await fakeUsersRepository.create({
+				email: 'john@email.com',
+				name: 'John',
+				password: 'abc'
+			})
+
+			const userData: UpdateUserDto = {
+				email: 'new@email.com',
+				password: 'newpass'
+			}
+
+			const newHashedPassword = faker.random.uuid()
+			const spyGenerateHashPassword = jest.spyOn(fakeHashProvider, 'generateHash').mockResolvedValueOnce(newHashedPassword)
+
+			const { password} = await service.execute(id, userData)
+
+			expect(password).toBe(newHashedPassword)
+			expect(spyGenerateHashPassword).toHaveBeenCalled()
+		})
+	})
+
+	describe('when password is not passed', () => {
+		it('should not hash password',async () => {
+			const { id } = await fakeUsersRepository.create({
+				email: 'john@email.com',
+				name: 'John',
+				password: 'abc'
+			})
+
+			const userData: UpdateUserDto = {
+				email: 'new@email.com',
+			}
+
+			const spyGenerateHashPassword = jest.spyOn(fakeHashProvider, 'generateHash')
+			await service.execute(id, userData)
+
+			expect(spyGenerateHashPassword).not.toHaveBeenCalled()
 		})
 	})
 

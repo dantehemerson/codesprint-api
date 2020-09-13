@@ -29,6 +29,10 @@ export class UpdateUserService {
 			await this.checkUserExistsByEmail(data.email)
 		}
 
+		if(data.password) {
+			data.password = await this.hashProvider.generateHash(data.password)
+		}
+
 		cleanAssign(user, data)
 
 		return this.usersRepository.save(user)
