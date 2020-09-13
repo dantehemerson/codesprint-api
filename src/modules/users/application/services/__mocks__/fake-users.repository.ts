@@ -1,6 +1,7 @@
 import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
 import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
+import faker from 'faker'
 
 type Optional<T> = T | undefined
 
@@ -23,7 +24,7 @@ export class FakeUsersRepository implements IUsersRepository {
     const user = new User();
 
     Object.assign(user, {
-      id: 'asaaaaaaaaa',
+      id: faker.random.uuid(),
       name: userData.name,
       email: userData.email,
       password: userData.password,
@@ -40,6 +41,10 @@ export class FakeUsersRepository implements IUsersRepository {
     const userIndex = this.users.findIndex(findUser => findUser.id === user.id);
 
     if(userIndex !== -1) {
+			/** Hack to not break the test when update is executed inmediatly after create.
+			 * In real cases this should not happen
+			 */
+			user.updated_at = new Date(new Date().getTime() + 1)  // update the updated_at date
       this.users[userIndex] = user;
     }
     else {

@@ -1,4 +1,4 @@
-import { FakeUsersRepository } from '@modules/users/application/services/__mocks__/fake-create-users.repository';
+import { FakeUsersRepository } from '@modules/users/application/services/__mocks__/fake-users.repository';
 import { FakeHashProvider } from '@modules/users/application/services/__mocks__/fake-hash.provider';
 import { ConflictError } from '@shared/errors/conflict.error';
 import { CreateUserService } from './create-user.service';
