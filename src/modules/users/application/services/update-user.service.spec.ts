@@ -63,6 +63,26 @@ describe(UpdateUserService.name, () => {
 			expect(spyFindEmailUsersRepository).toHaveBeenCalled()
 		})
 
+		it('should not throw conflict error if email is the same than the user updating',async () => {
+			const { id } = await fakeUsersRepository.create({
+				email: 'john@email.com',
+				name: 'John',
+				password: 'abc'
+			})
+
+			const userData = {
+				email: 'john@email.com',
+			}
+
+			const spyFindUsersRepository = jest.spyOn(fakeUsersRepository, 'findById')
+			const spyFindEmailUsersRepository = jest.spyOn(fakeUsersRepository, 'findByEmail')
+
+			const response = await service.execute(id, userData)
+
+			expect(response).toMatchObject(userData)
+			expect(spyFindUsersRepository).toHaveBeenCalled()
+			expect(spyFindEmailUsersRepository).not.toHaveBeenCalled()
+		})
 	})
 
 	describe('when email is not passed', () => {

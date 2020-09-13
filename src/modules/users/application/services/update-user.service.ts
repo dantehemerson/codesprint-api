@@ -6,6 +6,7 @@ import { IHashProvider } from '../../domain/interfaces/hash-provider.interface';
 import { User } from '../../infra/persistence/typeorm/entities/user.entity';
 import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
 import { NotFoundError } from 'routing-controllers';
+import { cleanAssign } from '@shared/helpers/clean-assign.helper';
 
 @injectable()
 export class UpdateUserService {
@@ -17,21 +18,18 @@ export class UpdateUserService {
 		private hashProvider: IHashProvider,
 	) {}
 
-	async execute(id: string, { name, email, password }: UpdateUserDto): Promise<User> {
+	async execute(id: string, data: UpdateUserDto): Promise<User> {
 		const user = await this.usersRepository.findById(id);
+
 		if(!user) {
 			throw new NotFoundError('User not found')
 		}
 
-		if(email) {
-			await this.checkUserExistsByEmail(email)
+		if(data.email !== user.email && data.email) {
+			await this.checkUserExistsByEmail(data.email)
 		}
 
-		Object.assign(user, {
-			name,
-			email,
-			password
-		})
+		cleanAssign(user, data)
 
 		return this.usersRepository.save(user)
 	}

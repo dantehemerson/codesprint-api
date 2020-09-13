@@ -18,7 +18,7 @@ export class FakeUsersRepository implements IUsersRepository {
     const findUser = this.users.find(user => user.email === email);
 
     return findUser;
-  }
+	}
 
   public async create(userData: CreateUserDto): Promise<User> {
     const user = new User();

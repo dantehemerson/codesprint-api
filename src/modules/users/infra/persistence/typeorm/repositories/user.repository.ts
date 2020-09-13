@@ -1,7 +1,7 @@
 import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
 import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Not } from 'typeorm';
 
 class UsersRepository implements IUsersRepository {
 	private ormRepository: Repository<User>;
@@ -17,7 +17,7 @@ class UsersRepository implements IUsersRepository {
 	}
 
 	async findByEmail(email: string): Promise<User | undefined> {
-		const user = await this.ormRepository.findOne({ where: { email } });
+		const user = await this.ormRepository.findOne({ where: { email } })
 
 		return user;
 	}
