@@ -2,10 +2,11 @@ import { CreateUserService } from '@modules/users/application/services/create-us
 import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
 import { HttpStatus } from '@shared/enums/http-status.enum';
-import { Body, HttpCode, JsonController, Post, Patch, Param } from 'routing-controllers';
+import { Body, HttpCode, JsonController, Post, Patch, Param, Delete, OnUndefined } from 'routing-controllers';
 import { container } from 'tsyringe';
 import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
 import { UpdateUserService } from '@modules/users/application/services/update-user.service';
+import { DeleteUserService } from '@modules/users/application/services/delete-user.service';
 
 @JsonController('/users')
 export default class UsersController {
@@ -31,5 +32,14 @@ export default class UsersController {
 		delete user.password
 
 		return user
+	}
+
+	@HttpCode(HttpStatus.NO_CONTENT)
+	@OnUndefined(HttpStatus.NO_CONTENT)
+	@Delete('/:id')
+	public async delete(@Param('id') id: string) {
+		const deleteUser = container.resolve(DeleteUserService);
+
+		await deleteUser.execute(id);
 	}
 }

@@ -35,7 +35,11 @@ export class FakeUsersRepository implements IUsersRepository {
     this.save(user);
 
     return user;
-  }
+	}
+
+	public async deleteById(id: string): Promise<void> {
+		this.users = this.users.filter(user => user.id !== id)
+	}
 
   public async save(user: User): Promise<User> {
     const userIndex = this.users.findIndex(findUser => findUser.id === user.id);

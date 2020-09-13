@@ -1,12 +1,11 @@
-import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
+import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
 import { ConflictError } from '@shared/errors/conflict.error';
+import { cleanAssign } from '@shared/helpers/clean-assign.helper';
+import { NotFoundError } from 'routing-controllers';
 import { inject, injectable } from 'tsyringe';
 import { IHashProvider } from '../../domain/interfaces/hash-provider.interface';
 import { User } from '../../infra/persistence/typeorm/entities/user.entity';
-import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
-import { NotFoundError } from 'routing-controllers';
-import { cleanAssign } from '@shared/helpers/clean-assign.helper';
 
 @injectable()
 export class UpdateUserService {

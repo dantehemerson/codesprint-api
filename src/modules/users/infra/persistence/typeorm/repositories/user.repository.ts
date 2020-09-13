@@ -1,7 +1,7 @@
 import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
 import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
-import { getRepository, Repository, Not } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 class UsersRepository implements IUsersRepository {
 	private ormRepository: Repository<User>;
@@ -25,6 +25,10 @@ class UsersRepository implements IUsersRepository {
 	async create(userData: CreateUserDto): Promise<User> {
 		const user = await this.ormRepository.create(userData);
 		return this.save(user);
+	}
+
+	async deleteById(id: string): Promise<void> {
+		await this.ormRepository.delete({ id })
 	}
 
 	async save(user: User): Promise<User> {
