@@ -2,11 +2,12 @@ import { CreateUserService } from '@modules/users/application/services/create-us
 import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
 import { HttpStatus } from '@shared/enums/http-status.enum';
-import { Body, HttpCode, JsonController, Post, Patch, Param, Delete, OnUndefined } from 'routing-controllers';
+import { Body, HttpCode, JsonController, Post, Patch, Param, Delete, OnUndefined, Get } from 'routing-controllers';
 import { container } from 'tsyringe';
 import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
 import { UpdateUserService } from '@modules/users/application/services/update-user.service';
 import { DeleteUserService } from '@modules/users/application/services/delete-user.service';
+import { FindUserService } from '@modules/users/application/services/find-user.service';
 
 @JsonController('/users')
 export default class UsersController {
@@ -21,6 +22,19 @@ export default class UsersController {
 
 		return user
 	}
+
+	@HttpCode(HttpStatus.OK)
+	@Get('/:id')
+	public async find(@Param('id') id: string): Promise<Omit<User, 'password'> | undefined> {
+		const findUser = container.resolve(FindUserService);
+
+		const user = await findUser.execute(id);
+
+		delete user?.password
+
+		return user
+	}
+
 
 	@HttpCode(HttpStatus.OK)
 	@Patch('/:id')
