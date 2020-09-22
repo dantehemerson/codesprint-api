@@ -17,7 +17,7 @@ class UsersRepository implements IUsersRepository {
 	}
 
 	async findByEmail(email: string): Promise<User | undefined> {
-		const user = await this.ormRepository.findOne({ where: { email } });
+		const user = await this.ormRepository.findOne({ where: { email } })
 
 		return user;
 	}
@@ -25,6 +25,10 @@ class UsersRepository implements IUsersRepository {
 	async create(userData: CreateUserDto): Promise<User> {
 		const user = await this.ormRepository.create(userData);
 		return this.save(user);
+	}
+
+	async deleteById(id: string): Promise<void> {
+		await this.ormRepository.delete({ id })
 	}
 
 	async save(user: User): Promise<User> {
