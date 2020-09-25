@@ -13,10 +13,10 @@ export class FindUserService {
 	async execute(id: string): Promise<User | undefined> {
 		const user = await this.usersRepository.findById(id);
 
-		if(!user) {
-			throw new NotFoundError('User not found')
+		if (!user) {
+			throw new NotFoundError('User not found');
 		}
 
-		return this.usersRepository.findById(id)
+		return this.usersRepository.findById(id);
 	}
 }

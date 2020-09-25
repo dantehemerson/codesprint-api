@@ -4,6 +4,7 @@ import { ConflictError } from '@shared/errors/conflict.error';
 import { cleanAssign } from '@shared/helpers/clean-assign.helper';
 import { NotFoundError } from 'routing-controllers';
 import { inject, injectable } from 'tsyringe';
+import { deepClone } from '@shared/helpers/deep-clone.helper';
 import { IHashProvider } from '../../domain/interfaces/hash-provider.interface';
 import { User } from '../../infra/persistence/typeorm/entities/user.entity';
 
@@ -17,24 +18,26 @@ export class UpdateUserService {
 		private hashProvider: IHashProvider,
 	) {}
 
-	async execute(id: string, data: UpdateUserDto): Promise<User> {
+	async execute(id: string, updateData: UpdateUserDto): Promise<User> {
 		const user = await this.usersRepository.findById(id);
 
-		if(!user) {
-			throw new NotFoundError('User not found')
+		if (!user) {
+			throw new NotFoundError('User not found');
 		}
 
-		if(data.email !== user.email && data.email) {
-			await this.checkUserExistsByEmail(data.email)
+		const data = deepClone(updateData);
+
+		if (data.email !== user.email && data.email) {
+			await this.checkUserExistsByEmail(data.email);
 		}
 
-		if(data.password) {
-			data.password = await this.hashProvider.generateHash(data.password)
+		if (data.password) {
+			data.password = await this.hashProvider.generateHash(data.password);
 		}
 
-		cleanAssign(user, data)
+		cleanAssign(user, data);
 
-		return this.usersRepository.save(user)
+		return this.usersRepository.save(user);
 	}
 
 	/**
