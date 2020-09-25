@@ -12,6 +12,7 @@ import {
 	Delete,
 	OnUndefined,
 	Get,
+	Authorized,
 } from 'routing-controllers';
 import { container } from 'tsyringe';
 import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
@@ -35,6 +36,7 @@ export default class UsersController {
 		return user;
 	}
 
+	@Authorized()
 	@HttpCode(HttpStatus.OK)
 	@Get('/:id')
 	public async find(
