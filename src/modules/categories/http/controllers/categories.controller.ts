@@ -19,6 +19,6 @@ export default class CategoriesController {
 			parent_id,
 		});
 
-		return category
+		return category;
 	}
 }
