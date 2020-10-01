@@ -7,8 +7,8 @@ module.exports = function () {
 	);
 	console.log(stdout.toString('utf-8'));
 
-	console.log('\nRunning  migrations');
+	// console.log('\nRunning  migrations');
 
-	const stdoutMigration = execSync('npm run typeorm -- migration:run');
-	console.log(stdoutMigration.toString('utf-8'));
+	// const stdoutMigration = execSync('npm run typeorm -- migration:run');
+	// console.log(stdoutMigration.toString('utf-8'));
 };

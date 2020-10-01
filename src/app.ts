@@ -17,7 +17,11 @@ export class App {
 	async init() {
 		passport.use(jwtStrategy());
 
-		this.typormConnection = await connection;
+		try {
+			this.typormConnection = await connection;
+		} catch (errror) {
+			console.log('Dante: App -> init -> errror', errror);
+		}
 		// console.log(
 		// 	'Dante: App -> init -> 		this.typormConnection.hashMetadata(User)',
 		// 	this.typormConnection.hashMetadata(User),
