@@ -19,6 +19,9 @@ import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
 import { UpdateUserService } from '@modules/users/application/services/update-user.service';
 import { DeleteUserService } from '@modules/users/application/services/delete-user.service';
 import { FindUserService } from '@modules/users/application/services/find-user.service';
+import { UserLoginService } from '@modules/users/application/services/user-login.service';
+import { UserLoginDto } from '@modules/users/domain/dto/user-login.dto';
+import { IUserLoginResponse } from '@modules/users/domain/interfaces/user-login-response.interface';
 
 @JsonController('/users')
 export default class UsersController {
@@ -73,5 +76,15 @@ export default class UsersController {
 		const deleteUser = container.resolve(DeleteUserService);
 
 		await deleteUser.execute(id);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Post('/login')
+	public async login(
+		@Body() body: UserLoginDto,
+	): Promise<IUserLoginResponse | undefined> {
+		const userLogin = container.resolve(UserLoginService);
+
+		return userLogin.execute(body.email, body.password);
 	}
 }
