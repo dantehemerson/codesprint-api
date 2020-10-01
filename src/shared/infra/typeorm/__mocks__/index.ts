@@ -18,4 +18,4 @@ export const connection = createConnection({
 	migrationsRun: true,
 	migrationsTransactionMode: 'all',
 });
-// src/shared/infra/typeorm/__mocks__/index.ts
+// src/share                                                           d/infra/typeorm/__mocks__/index.ts
