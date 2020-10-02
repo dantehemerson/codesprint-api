@@ -13,6 +13,7 @@ import {
 	OnUndefined,
 	Get,
 	Authorized,
+	CurrentUser,
 } from 'routing-controllers';
 import { container } from 'tsyringe';
 import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
@@ -44,7 +45,9 @@ export default class UsersController {
 	@Get('/:id')
 	public async find(
 		@Param('id') id: string,
+		@CurrentUser() authUser: any,
 	): Promise<Omit<User, 'password'> | undefined> {
+		console.log('Dante: UsersController -> user', authUser);
 		const findUser = container.resolve(FindUserService);
 
 		const user = await findUser.execute(id);

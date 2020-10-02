@@ -1,6 +1,10 @@
 import 'reflect-metadata';
 import '@shared/infra/typeorm';
-import { createExpressServer, Action } from 'routing-controllers';
+import {
+	createExpressServer,
+	Action,
+	UnauthorizedError,
+} from 'routing-controllers';
 import '@shared/container';
 import { join } from 'path';
 import passport from 'passport';
@@ -9,16 +13,29 @@ import {
 	ExtractJwt,
 	StrategyOptions as JwtStrategyOptions,
 } from 'passport-jwt';
+import { authConfig } from '@config/auth';
+import { container } from 'tsyringe';
+import { FindUserService } from '@modules/users/application/services/find-user.service';
 
 const passportOptions: JwtStrategyOptions = {
-	secretOrKey: 'secret',
+	secretOrKey: authConfig.jwtSecret,
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
 
 passport.use(
 	new JwtStrategy(passportOptions, (jwtPayload, done) => {
-		console.log('========================== Dante: jwtPayload', jwtPayload);
-		return done(undefined, {}, 'ads');
+		const findUser = container.resolve(FindUserService);
+		findUser
+			.execute(jwtPayload.userId)
+			.then(user => {
+				if (!user) {
+					return done(new UnauthorizedError('User not found'));
+				}
+				return done(undefined, user);
+			})
+			.catch(error => {
+				return done(error);
+			});
 	}),
 );
 
@@ -28,14 +45,18 @@ const app = createExpressServer({
 	controllers: [
 		join(__dirname, '..', './src/modules/**/http/controllers/*.controller.ts'),
 	],
-	authorizationChecker: async (action: Action, roles: string[]) => {
-		passport.authenticate('jwt', (err, use, jwt) => {
-			console.log('Dante: jwt', jwt);
-			console.log('Dante: use', use);
-			console.log('Dante: err', err);
-		})(action.request, action.response, action.next);
-		return true;
-	},
+	authorizationChecker: (action: Action) =>
+		new Promise<boolean>((resolve, reject) => {
+			passport.authenticate('jwt', (error, user) => {
+				if (error) reject(error);
+				if (!user) resolve(false);
+				// Asign user to request to be used in CurrentUser decorator
+				// eslint-disable-next-line no-param-reassign
+				action.request.user = user;
+				resolve(true);
+			})(action.request, action.response, action.next);
+		}),
+	currentUserChecker: async (action: Action) => action.request.user,
 });
 
 app.use(passport.initialize());
