@@ -128,7 +128,7 @@ describe(UpdateUserService.name, () => {
 
 			await service.execute(id, userData);
 
-			/** should be called to find for user */
+			/** should call to find for user */
 			expect(spyFindUsersRepository).toHaveBeenCalled();
 			expect(spyFindEmailUsersRepository).not.toHaveBeenCalled();
 		});
