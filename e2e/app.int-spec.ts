@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { App } from '../src/app';
+import { aUUID, aISODate } from './helpers/matchers.helper';
 
 jest.mock('../src/shared/infra/typeorm');
 
@@ -10,7 +11,6 @@ describe('App Integrations tests', () => {
 
 		await app.init();
 		await app.listen();
-		console.log('FInishhhh');
 	});
 
 	it('should be defined', () => {
@@ -39,8 +39,13 @@ describe('App Integrations tests', () => {
 				})
 				.expect('Content-Type', /json/)
 				.expect(({ body }) => {
-					expect(body).toMatchObject({
-						response: 1,
+					expect(body).toEqual({
+						avatar: null,
+						created_at: expect.stringMatching(aISODate),
+						email: 'naguadtl@gmail.com',
+						id: expect.stringMatching(aUUID),
+						name: 'Update',
+						updated_at: expect.stringMatching(aISODate),
 					});
 				});
 		});
