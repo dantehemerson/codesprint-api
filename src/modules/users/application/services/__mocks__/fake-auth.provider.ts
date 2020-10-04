@@ -1,7 +1,7 @@
-import { IAuthService } from '@modules/users/domain/interfaces/auth-service.interface';
 import { IJWTPayload } from '@modules/users/domain/interfaces/jwt-payload.interface';
+import { AuthProvider } from '@modules/users/infra/providers/auth.provider';
 
-export class FakeAuthService implements IAuthService {
+export class FakeAuthProvider implements AuthProvider {
 	public signJWT(payload: IJWTPayload): string {
 		return JSON.stringify(payload);
 	}

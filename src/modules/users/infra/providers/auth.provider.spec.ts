@@ -1,12 +1,12 @@
 import { IJWTPayload } from '@modules/users/domain/interfaces/jwt-payload.interface';
-import { AuthService } from './auth.service';
+import { AuthProvider } from './auth.provider';
 
-describe(AuthService.name, () => {
-	let service: AuthService;
+describe(AuthProvider.name, () => {
+	let service: AuthProvider;
 
 	beforeEach(() => {
 		jest.clearAllMocks();
-		service = new AuthService();
+		service = new AuthProvider();
 	});
 
 	it('should be defined', () => {

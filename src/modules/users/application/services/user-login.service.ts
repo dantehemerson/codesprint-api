@@ -1,4 +1,4 @@
-import { IAuthService } from '@modules/users/domain/interfaces/auth-service.interface';
+import { IAuthProvider } from '@modules/users/domain/interfaces/auth-provider.interface';
 import { IJWTPayload } from '@modules/users/domain/interfaces/jwt-payload.interface';
 import { IUserLoginResponse } from '@modules/users/domain/interfaces/user-login-response.interface';
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
@@ -15,8 +15,8 @@ export class UserLoginService {
 		@inject('HashProvider')
 		private hashProvider: IHashProvider,
 
-		@inject('AuthService')
-		private authService: IAuthService,
+		@inject('AuthProvider')
+		private authProvider: IAuthProvider,
 	) {}
 
 	async execute(email: string, password: string): Promise<IUserLoginResponse> {
@@ -40,7 +40,7 @@ export class UserLoginService {
 			userId: user.id,
 		};
 
-		const jwt = this.authService.signJWT(payload);
+		const jwt = this.authProvider.signJWT(payload);
 
 		return {
 			jwt,

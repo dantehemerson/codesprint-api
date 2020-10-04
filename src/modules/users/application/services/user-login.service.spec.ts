@@ -6,24 +6,24 @@ import { IJWTPayload } from '@modules/users/domain/interfaces/jwt-payload.interf
 import faker from 'faker';
 import { UnauthorizedError } from 'routing-controllers';
 import { UserLoginService } from './user-login.service';
-import { FakeAuthService } from './__mocks__/fake-auth.service';
+import { FakeAuthProvider } from './__mocks__/fake-auth.provider';
 
 describe(UserLoginService.name, () => {
 	let fakeUsersRepository: FakeUsersRepository;
 	let fakeHashProvider: FakeHashProvider;
-	let fakeAuthService: FakeAuthService;
+	let fakeAuthProvider: FakeAuthProvider;
 	let service: UserLoginService;
 
 	beforeEach(() => {
 		jest.clearAllMocks();
 		fakeUsersRepository = new FakeUsersRepository();
 		fakeHashProvider = new FakeHashProvider();
-		fakeAuthService = new FakeAuthService();
+		fakeAuthProvider = new FakeAuthProvider();
 
 		service = new UserLoginService(
 			fakeUsersRepository,
 			fakeHashProvider,
-			fakeAuthService,
+			fakeAuthProvider,
 		);
 	});
 
@@ -76,7 +76,7 @@ describe(UserLoginService.name, () => {
 		const { id } = await fakeUsersRepository.create(user);
 		const signedResponse = 'signed-jwt';
 		const spySignJWT = jest
-			.spyOn(fakeAuthService, 'signJWT')
+			.spyOn(fakeAuthProvider, 'signJWT')
 			.mockReturnValue(signedResponse);
 
 		const response = await service.execute(user.email, user.password);
