@@ -17,15 +17,7 @@ export class App {
 	async init() {
 		passport.use(jwtStrategy());
 
-		try {
-			this.typormConnection = await connection;
-		} catch (errror) {
-			console.log('Dante: App -> init -> errror', errror);
-		}
-		// console.log(
-		// 	'Dante: App -> init -> 		this.typormConnection.hashMetadata(User)',
-		// 	this.typormConnection.hashMetadata(User),
-		// );
+		this.typormConnection = await connection;
 		this.expressApp = createExpressServer({
 			controllers: [
 				join(
@@ -38,13 +30,17 @@ export class App {
 			currentUserChecker: async (action: Action) => action.request.user,
 		});
 
-		this.expressApp.use(passport.initialize());
+		this.initMiddleware();
 
 		this.expressApp.get('/', (_, res) => {
 			res.json({
 				health: true,
 			});
 		});
+	}
+
+	private initMiddleware() {
+		this.expressApp.use(passport.initialize());
 	}
 
 	getServer() {

@@ -1,10 +1,11 @@
 /**
  * To define custom connection according to
- * docker-componse image for testing
+ * docker-componse.test.yml image for testing
  */
 import { createConnection } from 'typeorm';
 
-console.log('Using mocked typeorm connection');
+// eslint-disable-next-line no-console
+console.info('Using mocked typeorm connection');
 
 export const connection = createConnection({
 	type: 'postgres',
@@ -18,4 +19,3 @@ export const connection = createConnection({
 	migrationsRun: true,
 	migrationsTransactionMode: 'all',
 });
-// src/share                                                           d/infra/typeorm/__mocks__/index.ts
