@@ -8,195 +8,195 @@ import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
 import { UpdateUserService } from './update-user.service';
 
 describe(UpdateUserService.name, () => {
-	let fakeUsersRepository: FakeUsersRepository;
-	let fakeHashProvider: FakeHashProvider;
-	let service: UpdateUserService;
+  let fakeUsersRepository: FakeUsersRepository;
+  let fakeHashProvider: FakeHashProvider;
+  let service: UpdateUserService;
 
-	beforeEach(() => {
-		jest.clearAllMocks();
-		fakeUsersRepository = new FakeUsersRepository();
-		fakeHashProvider = new FakeHashProvider();
-		service = new UpdateUserService(fakeUsersRepository, fakeHashProvider);
-	});
+  beforeEach(() => {
+    jest.clearAllMocks();
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+    service = new UpdateUserService(fakeUsersRepository, fakeHashProvider);
+  });
 
-	it('should be defined', () => {
-		expect(service).toBeDefined();
-	});
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 
-	it("should throw not-found error if user doesn't exist", async () => {
-		const userData = {
-			name: 'New',
-		};
+  it("should throw not-found error if user doesn't exist", async () => {
+    const userData = {
+      name: 'New',
+    };
 
-		const spyFakeUsersRepository = jest.spyOn(fakeUsersRepository, 'findById');
+    const spyFakeUsersRepository = jest.spyOn(fakeUsersRepository, 'findById');
 
-		await expect(
-			service.execute(faker.random.uuid(), userData),
-		).rejects.toBeInstanceOf(NotFoundError);
+    await expect(
+      service.execute(faker.random.uuid(), userData),
+    ).rejects.toBeInstanceOf(NotFoundError);
 
-		/** should be called to find for user */
-		expect(spyFakeUsersRepository).toHaveBeenCalled();
-	});
+    /** should be called to find for user */
+    expect(spyFakeUsersRepository).toHaveBeenCalled();
+  });
 
-	describe('when email is passed', () => {
-		it('should throw conflict error if email already exists for another user', async () => {
-			await fakeUsersRepository.create({
-				email: 'already@email.com',
-				name: 'Already',
-				password: '123',
-			});
+  describe('when email is passed', () => {
+    it('should throw conflict error if email already exists for another user', async () => {
+      await fakeUsersRepository.create({
+        email: 'already@email.com',
+        name: 'Already',
+        password: '123',
+      });
 
-			/** user to update */
-			const { id } = await fakeUsersRepository.create({
-				email: 'john@email.com',
-				name: 'John',
-				password: 'abc',
-			});
+      /** user to update */
+      const { id } = await fakeUsersRepository.create({
+        email: 'john@email.com',
+        name: 'John',
+        password: 'abc',
+      });
 
-			const userData: UpdateUserDto = {
-				email: 'already@email.com',
-			};
+      const userData: UpdateUserDto = {
+        email: 'already@email.com',
+      };
 
-			const spyFindUsersRepository = jest.spyOn(
-				fakeUsersRepository,
-				'findById',
-			);
-			const spyFindEmailUsersRepository = jest.spyOn(
-				fakeUsersRepository,
-				'findByEmail',
-			);
+      const spyFindUsersRepository = jest.spyOn(
+        fakeUsersRepository,
+        'findById',
+      );
+      const spyFindEmailUsersRepository = jest.spyOn(
+        fakeUsersRepository,
+        'findByEmail',
+      );
 
-			await expect(service.execute(id, userData)).rejects.toBeInstanceOf(
-				ConflictError,
-			);
+      await expect(service.execute(id, userData)).rejects.toBeInstanceOf(
+        ConflictError,
+      );
 
-			/** should be called to find for user */
-			expect(spyFindUsersRepository).toHaveBeenCalled();
-			expect(spyFindEmailUsersRepository).toHaveBeenCalled();
-		});
+      /** should be called to find for user */
+      expect(spyFindUsersRepository).toHaveBeenCalled();
+      expect(spyFindEmailUsersRepository).toHaveBeenCalled();
+    });
 
-		it('should not throw conflict error if email is the same than the user updating', async () => {
-			const { id } = await fakeUsersRepository.create({
-				email: 'john@email.com',
-				name: 'John',
-				password: 'abc',
-			});
+    it('should not throw conflict error if email is the same than the user updating', async () => {
+      const { id } = await fakeUsersRepository.create({
+        email: 'john@email.com',
+        name: 'John',
+        password: 'abc',
+      });
 
-			const userData: UpdateUserDto = {
-				email: 'john@email.com',
-			};
+      const userData: UpdateUserDto = {
+        email: 'john@email.com',
+      };
 
-			const spyFindUsersRepository = jest.spyOn(
-				fakeUsersRepository,
-				'findById',
-			);
-			const spyFindEmailUsersRepository = jest.spyOn(
-				fakeUsersRepository,
-				'findByEmail',
-			);
+      const spyFindUsersRepository = jest.spyOn(
+        fakeUsersRepository,
+        'findById',
+      );
+      const spyFindEmailUsersRepository = jest.spyOn(
+        fakeUsersRepository,
+        'findByEmail',
+      );
 
-			const response = await service.execute(id, userData);
+      const response = await service.execute(id, userData);
 
-			expect(response).toMatchObject(userData);
-			expect(spyFindUsersRepository).toHaveBeenCalled();
-			expect(spyFindEmailUsersRepository).not.toHaveBeenCalled();
-		});
-	});
+      expect(response).toMatchObject(userData);
+      expect(spyFindUsersRepository).toHaveBeenCalled();
+      expect(spyFindEmailUsersRepository).not.toHaveBeenCalled();
+    });
+  });
 
-	describe('when email is not passed', () => {
-		it('should not call to findByEmail in user repository', async () => {
-			/** user to update */
-			const { id } = await fakeUsersRepository.create({
-				email: 'john@email.com',
-				name: 'John',
-				password: 'abc',
-			});
+  describe('when email is not passed', () => {
+    it('should not call to findByEmail in user repository', async () => {
+      /** user to update */
+      const { id } = await fakeUsersRepository.create({
+        email: 'john@email.com',
+        name: 'John',
+        password: 'abc',
+      });
 
-			const userData: UpdateUserDto = {
-				name: 'New Name',
-				password: 'newpassword',
-			};
+      const userData: UpdateUserDto = {
+        name: 'New Name',
+        password: 'newpassword',
+      };
 
-			const spyFindUsersRepository = jest.spyOn(
-				fakeUsersRepository,
-				'findById',
-			);
-			const spyFindEmailUsersRepository = jest.spyOn(
-				fakeUsersRepository,
-				'findByEmail',
-			);
+      const spyFindUsersRepository = jest.spyOn(
+        fakeUsersRepository,
+        'findById',
+      );
+      const spyFindEmailUsersRepository = jest.spyOn(
+        fakeUsersRepository,
+        'findByEmail',
+      );
 
-			await service.execute(id, userData);
+      await service.execute(id, userData);
 
-			/** should call to find for user */
-			expect(spyFindUsersRepository).toHaveBeenCalled();
-			expect(spyFindEmailUsersRepository).not.toHaveBeenCalled();
-		});
-	});
+      /** should call to find for user */
+      expect(spyFindUsersRepository).toHaveBeenCalled();
+      expect(spyFindEmailUsersRepository).not.toHaveBeenCalled();
+    });
+  });
 
-	describe('when password is passed', () => {
-		it('should hash password and save it', async () => {
-			const { id } = await fakeUsersRepository.create({
-				email: 'john@email.com',
-				name: 'John',
-				password: 'abc',
-			});
+  describe('when password is passed', () => {
+    it('should hash password and save it', async () => {
+      const { id } = await fakeUsersRepository.create({
+        email: 'john@email.com',
+        name: 'John',
+        password: 'abc',
+      });
 
-			const userData: UpdateUserDto = {
-				email: 'new@email.com',
-				password: 'newpass',
-			};
+      const userData: UpdateUserDto = {
+        email: 'new@email.com',
+        password: 'newpass',
+      };
 
-			const newHashedPassword = faker.random.uuid();
-			const spyGenerateHashPassword = jest
-				.spyOn(fakeHashProvider, 'generateHash')
-				.mockResolvedValueOnce(newHashedPassword);
+      const newHashedPassword = faker.random.uuid();
+      const spyGenerateHashPassword = jest
+        .spyOn(fakeHashProvider, 'generateHash')
+        .mockResolvedValueOnce(newHashedPassword);
 
-			const { password } = await service.execute(id, userData);
+      const { password } = await service.execute(id, userData);
 
-			expect(password).toBe(newHashedPassword);
-			expect(spyGenerateHashPassword).toHaveBeenCalled();
-		});
-	});
+      expect(password).toBe(newHashedPassword);
+      expect(spyGenerateHashPassword).toHaveBeenCalled();
+    });
+  });
 
-	describe('when password is not passed', () => {
-		it('should not hash password', async () => {
-			const { id } = await fakeUsersRepository.create({
-				email: 'john@email.com',
-				name: 'John',
-				password: 'abc',
-			});
+  describe('when password is not passed', () => {
+    it('should not hash password', async () => {
+      const { id } = await fakeUsersRepository.create({
+        email: 'john@email.com',
+        name: 'John',
+        password: 'abc',
+      });
 
-			const userData: UpdateUserDto = {
-				email: 'new@email.com',
-			};
+      const userData: UpdateUserDto = {
+        email: 'new@email.com',
+      };
 
-			const spyGenerateHashPassword = jest.spyOn(
-				fakeHashProvider,
-				'generateHash',
-			);
-			await service.execute(id, userData);
+      const spyGenerateHashPassword = jest.spyOn(
+        fakeHashProvider,
+        'generateHash',
+      );
+      await service.execute(id, userData);
 
-			expect(spyGenerateHashPassword).not.toHaveBeenCalled();
-		});
-	});
+      expect(spyGenerateHashPassword).not.toHaveBeenCalled();
+    });
+  });
 
-	it('should return updated user & update the update_at field', async () => {
-		const { id, updated_at } = await fakeUsersRepository.create({
-			email: 'john@email.com',
-			name: 'John',
-			password: 'abc',
-		});
+  it('should return updated user & update the update_at field', async () => {
+    const { id, updated_at } = await fakeUsersRepository.create({
+      email: 'john@email.com',
+      name: 'John',
+      password: 'abc',
+    });
 
-		const userData = {
-			email: 'abc@email.com',
-			name: 'ABC',
-			password: 'xyz',
-		};
+    const userData = {
+      email: 'abc@email.com',
+      name: 'ABC',
+      password: 'xyz',
+    };
 
-		const response = await service.execute(id, userData);
+    const response = await service.execute(id, userData);
 
-		expect(response).toMatchObject(userData);
-		expect(updated_at < response.updated_at).toBe(true);
-	});
+    expect(response).toMatchObject(userData);
+    expect(updated_at < response.updated_at).toBe(true);
+  });
 });

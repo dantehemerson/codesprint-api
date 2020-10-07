@@ -2,8 +2,8 @@ import { CreateCategoryDto } from '@modules/categories/domain/dto/create-categor
 import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
 
 export interface ICategoriesRepository {
-	findById(id: string): Promise<Category | undefined>;
-	findByTitle(title: string): Promise<Category | undefined>;
-	create(data: CreateCategoryDto): Promise<Category>;
-	save(category: Category): Promise<Category>;
+  findById(id: string): Promise<Category | undefined>;
+  findByTitle(title: string): Promise<Category | undefined>;
+  create(data: CreateCategoryDto): Promise<Category>;
+  save(category: Category): Promise<Category>;
 }

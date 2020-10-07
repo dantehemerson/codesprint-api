@@ -4,29 +4,29 @@ import { CreateCategoryDto } from '@modules/categories/domain/dto/create-categor
 import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
 
 export class CategoriesRepository implements ICategoriesRepository {
-	private ormRepository: Repository<Category>;
+  private ormRepository: Repository<Category>;
 
-	constructor() {
-		this.ormRepository = getRepository(Category);
-	}
+  constructor() {
+    this.ormRepository = getRepository(Category);
+  }
 
-	async findById(id: string): Promise<Category | undefined> {
-		const category = await this.ormRepository.findOne(id);
+  async findById(id: string): Promise<Category | undefined> {
+    const category = await this.ormRepository.findOne(id);
 
-		return category;
-	}
+    return category;
+  }
 
-	async findByTitle(title: string): Promise<Category | undefined> {
-		const category = await this.ormRepository.findOne({ where: { title } });
-		return category;
-	}
+  async findByTitle(title: string): Promise<Category | undefined> {
+    const category = await this.ormRepository.findOne({ where: { title } });
+    return category;
+  }
 
-	async create(categoryData: CreateCategoryDto): Promise<Category> {
-		const category = await this.ormRepository.create(categoryData);
-		return this.save(category);
-	}
+  async create(categoryData: CreateCategoryDto): Promise<Category> {
+    const category = await this.ormRepository.create(categoryData);
+    return this.save(category);
+  }
 
-	async save(category: Category): Promise<Category> {
-		return this.ormRepository.save(category);
-	}
+  async save(category: Category): Promise<Category> {
+    return this.ormRepository.save(category);
+  }
 }

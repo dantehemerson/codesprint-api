@@ -5,18 +5,18 @@ import { inject, injectable } from 'tsyringe';
 
 @injectable()
 export class FindUserService {
-	constructor(
-		@inject('UsersRepository')
-		private usersRepository: IUsersRepository,
-	) {}
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
-	async execute(id: string): Promise<User | undefined> {
-		const user = await this.usersRepository.findById(id);
+  async execute(id: string): Promise<User | undefined> {
+    const user = await this.usersRepository.findById(id);
 
-		if (!user) {
-			throw new NotFoundError('User not found');
-		}
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
 
-		return this.usersRepository.findById(id);
-	}
+    return this.usersRepository.findById(id);
+  }
 }

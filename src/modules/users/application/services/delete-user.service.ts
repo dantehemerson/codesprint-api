@@ -4,18 +4,18 @@ import { inject, injectable } from 'tsyringe';
 
 @injectable()
 export class DeleteUserService {
-	constructor(
-		@inject('UsersRepository')
-		private usersRepository: IUsersRepository,
-	) {}
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
-	async execute(id: string): Promise<void> {
-		const user = await this.usersRepository.findById(id);
+  async execute(id: string): Promise<void> {
+    const user = await this.usersRepository.findById(id);
 
-		if (!user) {
-			throw new NotFoundError('User not found');
-		}
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
 
-		await this.usersRepository.deleteById(id);
-	}
+    await this.usersRepository.deleteById(id);
+  }
 }

@@ -10,47 +10,47 @@ import { User } from '../../infra/persistence/typeorm/entities/user.entity';
 
 @injectable()
 export class UpdateUserService {
-	constructor(
-		@inject('UsersRepository')
-		private usersRepository: IUsersRepository,
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
 
-		@inject('HashProvider')
-		private hashProvider: IHashProvider,
-	) {}
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+  ) {}
 
-	async execute(id: string, updateData: UpdateUserDto): Promise<User> {
-		const user = await this.usersRepository.findById(id);
+  async execute(id: string, updateData: UpdateUserDto): Promise<User> {
+    const user = await this.usersRepository.findById(id);
 
-		if (!user) {
-			throw new NotFoundError('User not found');
-		}
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
 
-		const data = deepClone(updateData);
+    const data = deepClone(updateData);
 
-		if (data.email !== user.email && data.email) {
-			await this.checkUserExistsByEmail(data.email);
-		}
+    if (data.email !== user.email && data.email) {
+      await this.checkUserExistsByEmail(data.email);
+    }
 
-		if (data.password) {
-			data.password = await this.hashProvider.generateHash(data.password);
-		}
+    if (data.password) {
+      data.password = await this.hashProvider.generateHash(data.password);
+    }
 
-		cleanAssign(user, data);
+    cleanAssign(user, data);
 
-		return this.usersRepository.save(user);
-	}
+    return this.usersRepository.save(user);
+  }
 
-	/**
-	 * Throws conflict error if an user with the same email aready exists
-	 * @param email
-	 */
-	private async checkUserExistsByEmail(email: string) {
-		const user = await this.usersRepository.findByEmail(email);
+  /**
+   * Throws conflict error if an user with the same email aready exists
+   * @param email
+   */
+  private async checkUserExistsByEmail(email: string) {
+    const user = await this.usersRepository.findByEmail(email);
 
-		if (user) {
-			throw new ConflictError(
-				`An user with the same email ${email} already exists.`,
-			);
-		}
-	}
+    if (user) {
+      throw new ConflictError(
+        `An user with the same email ${email} already exists.`,
+      );
+    }
+  }
 }

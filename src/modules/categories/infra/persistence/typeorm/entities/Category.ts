@@ -1,31 +1,31 @@
 import {
-	Entity,
-	Column,
-	PrimaryGeneratedColumn,
-	CreateDateColumn,
-	UpdateDateColumn,
-	ManyToOne,
-	JoinColumn,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('categories')
 export class Category {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-	@Column({ nullable: true })
-	parent_id: string;
+  @Column({ nullable: true })
+  parent_id: string;
 
-	@ManyToOne(() => Category)
-	@JoinColumn({ name: 'parent_id' })
-	parent: Category;
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'parent_id' })
+  parent: Category;
 
-	@Column()
-	title: string;
+  @Column()
+  title: string;
 
-	@CreateDateColumn()
-	created_at: Date;
+  @CreateDateColumn()
+  created_at: Date;
 
-	@UpdateDateColumn()
-	updated_at: Date;
+  @UpdateDateColumn()
+  updated_at: Date;
 }

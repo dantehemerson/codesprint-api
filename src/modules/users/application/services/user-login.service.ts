@@ -8,42 +8,42 @@ import { IHashProvider } from '../../domain/interfaces/hash-provider.interface';
 
 @injectable()
 export class UserLoginService {
-	constructor(
-		@inject('UsersRepository')
-		private usersRepository: IUsersRepository,
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
 
-		@inject('HashProvider')
-		private hashProvider: IHashProvider,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
 
-		@inject('AuthProvider')
-		private authProvider: IAuthProvider,
-	) {}
+    @inject('AuthProvider')
+    private authProvider: IAuthProvider,
+  ) {}
 
-	async execute(email: string, password: string): Promise<IUserLoginResponse> {
-		const user = await this.usersRepository.findByEmail(email);
+  async execute(email: string, password: string): Promise<IUserLoginResponse> {
+    const user = await this.usersRepository.findByEmail(email);
 
-		if (!user) {
-			throw new UnauthorizedError('The email address or password is incorrect');
-		}
+    if (!user) {
+      throw new UnauthorizedError('The email address or password is incorrect');
+    }
 
-		const isUserPassword = await this.hashProvider.compareHash(
-			password,
-			user.password,
-		);
+    const isUserPassword = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    );
 
-		if (!isUserPassword) {
-			throw new UnauthorizedError('The email address or password is incorrect');
-		}
+    if (!isUserPassword) {
+      throw new UnauthorizedError('The email address or password is incorrect');
+    }
 
-		const payload: IJWTPayload = {
-			email: user.email,
-			userId: user.id,
-		};
+    const payload: IJWTPayload = {
+      email: user.email,
+      userId: user.id,
+    };
 
-		const jwt = this.authProvider.signJWT(payload);
+    const jwt = this.authProvider.signJWT(payload);
 
-		return {
-			jwt,
-		};
-	}
+    return {
+      jwt,
+    };
+  }
 }

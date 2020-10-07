@@ -9,100 +9,100 @@ import { UserLoginService } from './user-login.service';
 import { FakeAuthProvider } from './__mocks__/fake-auth.provider';
 
 describe(UserLoginService.name, () => {
-	let fakeUsersRepository: FakeUsersRepository;
-	let fakeHashProvider: FakeHashProvider;
-	let fakeAuthProvider: FakeAuthProvider;
-	let service: UserLoginService;
+  let fakeUsersRepository: FakeUsersRepository;
+  let fakeHashProvider: FakeHashProvider;
+  let fakeAuthProvider: FakeAuthProvider;
+  let service: UserLoginService;
 
-	beforeEach(() => {
-		jest.clearAllMocks();
-		fakeUsersRepository = new FakeUsersRepository();
-		fakeHashProvider = new FakeHashProvider();
-		fakeAuthProvider = new FakeAuthProvider();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+    fakeAuthProvider = new FakeAuthProvider();
 
-		service = new UserLoginService(
-			fakeUsersRepository,
-			fakeHashProvider,
-			fakeAuthProvider,
-		);
-	});
+    service = new UserLoginService(
+      fakeUsersRepository,
+      fakeHashProvider,
+      fakeAuthProvider,
+    );
+  });
 
-	it('should be defined', () => {
-		expect(service).toBeDefined();
-	});
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 
-	it("should reject UnauthorizedError when user doesn't exist", async () => {
-		const spyFakeUsersRepository = jest.spyOn(
-			fakeUsersRepository,
-			'findByEmail',
-		);
+  it("should reject UnauthorizedError when user doesn't exist", async () => {
+    const spyFakeUsersRepository = jest.spyOn(
+      fakeUsersRepository,
+      'findByEmail',
+    );
 
-		await expect(
-			service.execute(faker.internet.email(), faker.internet.password()),
-		).rejects.toBeInstanceOf(UnauthorizedError);
+    await expect(
+      service.execute(faker.internet.email(), faker.internet.password()),
+    ).rejects.toBeInstanceOf(UnauthorizedError);
 
-		/** should call to find for user */
-		expect(spyFakeUsersRepository).toHaveBeenCalled();
-	});
+    /** should call to find for user */
+    expect(spyFakeUsersRepository).toHaveBeenCalled();
+  });
 
-	it('should resolve when password passed match', async () => {
-		const user: CreateUserDto = {
-			email: 'jhon@email.com',
-			name: 'John',
-			password: 'abc',
-		};
-		const spyCompareHashPassword = jest.spyOn(fakeHashProvider, 'compareHash');
+  it('should resolve when password passed match', async () => {
+    const user: CreateUserDto = {
+      email: 'jhon@email.com',
+      name: 'John',
+      password: 'abc',
+    };
+    const spyCompareHashPassword = jest.spyOn(fakeHashProvider, 'compareHash');
 
-		await fakeUsersRepository.create(user);
+    await fakeUsersRepository.create(user);
 
-		const response = await service.execute(user.email, user.password);
+    const response = await service.execute(user.email, user.password);
 
-		expect(response).toEqual({
-			jwt: expect.any(String),
-		});
+    expect(response).toEqual({
+      jwt: expect.any(String),
+    });
 
-		expect(spyCompareHashPassword).toHaveBeenCalledWith(
-			user.password,
-			user.password,
-		);
-	});
+    expect(spyCompareHashPassword).toHaveBeenCalledWith(
+      user.password,
+      user.password,
+    );
+  });
 
-	it('should return signed JWT when user is authorized', async () => {
-		const user: CreateUserDto = {
-			email: 'jhon@email.com',
-			name: 'John',
-			password: 'abc',
-		};
-		const { id } = await fakeUsersRepository.create(user);
-		const signedResponse = 'signed-jwt';
-		const spySignJWT = jest
-			.spyOn(fakeAuthProvider, 'signJWT')
-			.mockReturnValue(signedResponse);
+  it('should return signed JWT when user is authorized', async () => {
+    const user: CreateUserDto = {
+      email: 'jhon@email.com',
+      name: 'John',
+      password: 'abc',
+    };
+    const { id } = await fakeUsersRepository.create(user);
+    const signedResponse = 'signed-jwt';
+    const spySignJWT = jest
+      .spyOn(fakeAuthProvider, 'signJWT')
+      .mockReturnValue(signedResponse);
 
-		const response = await service.execute(user.email, user.password);
+    const response = await service.execute(user.email, user.password);
 
-		expect(spySignJWT).toHaveBeenCalledWith({
-			email: user.email,
-			userId: id,
-		} as IJWTPayload);
-		expect(response).toEqual({
-			jwt: signedResponse,
-		});
-	});
+    expect(spySignJWT).toHaveBeenCalledWith({
+      email: user.email,
+      userId: id,
+    } as IJWTPayload);
+    expect(response).toEqual({
+      jwt: signedResponse,
+    });
+  });
 
-	it("should reject UnauthorizedError when password passed doesn't match", async () => {
-		const user: CreateUserDto = {
-			email: 'jhon@email.com',
-			name: 'John',
-			password: 'abc',
-		};
-		const spyCompareHashPassword = jest.spyOn(fakeHashProvider, 'compareHash');
+  it("should reject UnauthorizedError when password passed doesn't match", async () => {
+    const user: CreateUserDto = {
+      email: 'jhon@email.com',
+      name: 'John',
+      password: 'abc',
+    };
+    const spyCompareHashPassword = jest.spyOn(fakeHashProvider, 'compareHash');
 
-		await fakeUsersRepository.create(user);
+    await fakeUsersRepository.create(user);
 
-		await expect(service.execute(user.email, 'xyz')).rejects.toBeInstanceOf(
-			UnauthorizedError,
-		);
-		expect(spyCompareHashPassword).toHaveBeenCalledWith('xyz', user.password);
-	});
+    await expect(service.execute(user.email, 'xyz')).rejects.toBeInstanceOf(
+      UnauthorizedError,
+    );
+    expect(spyCompareHashPassword).toHaveBeenCalledWith('xyz', user.password);
+  });
 });
