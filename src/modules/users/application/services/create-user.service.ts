@@ -7,31 +7,31 @@ import { User } from '../../infra/persistence/typeorm/entities/user.entity';
 
 @injectable()
 export class CreateUserService {
-	constructor(
-		@inject('UsersRepository')
-		private usersRepository: IUsersRepository,
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
 
-		@inject('HashProvider')
-		private hashProvider: IHashProvider,
-	) {}
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+  ) {}
 
-	async execute({ name, email, password }: CreateUserDto): Promise<User> {
-		const checkUserExists = await this.usersRepository.findByEmail(email);
+  async execute({ name, email, password }: CreateUserDto): Promise<User> {
+    const checkUserExists = await this.usersRepository.findByEmail(email);
 
-		if (checkUserExists) {
-			throw new ConflictError(
-				`An user with the same email ${email} already exists.`,
-			);
-		}
+    if (checkUserExists) {
+      throw new ConflictError(
+        `An user with the same email ${email} already exists.`,
+      );
+    }
 
-		const hashedPassword = await this.hashProvider.generateHash(password);
+    const hashedPassword = await this.hashProvider.generateHash(password);
 
-		const user = await this.usersRepository.create({
-			name,
-			email,
-			password: hashedPassword,
-		});
+    const user = await this.usersRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
 
-		return user;
-	}
+    return user;
+  }
 }

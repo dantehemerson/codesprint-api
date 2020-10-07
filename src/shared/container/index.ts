@@ -10,11 +10,11 @@ import { container } from 'tsyringe';
 container.registerSingleton<IAuthProvider>(AuthProvider.name, AuthProvider);
 
 container.registerSingleton<IUsersRepository>(
-	UsersRepository.name,
-	UsersRepository,
+  UsersRepository.name,
+  UsersRepository,
 );
 
 container.registerSingleton<ICategoriesRepository>(
-	CategoriesRepository.name,
-	CategoriesRepository,
+  CategoriesRepository.name,
+  CategoriesRepository,
 );

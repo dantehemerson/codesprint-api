@@ -7,54 +7,54 @@ import { deepClone } from '@shared/helpers/deep-clone.helper';
 type Optional<T> = T | undefined;
 
 export class FakeUsersRepository implements IUsersRepository {
-	private users: User[] = [];
+  private users: User[] = [];
 
-	public async findById(id: string): Promise<Optional<User>> {
-		const findUser = this.users.find(user => user.id === id);
+  public async findById(id: string): Promise<Optional<User>> {
+    const findUser = this.users.find(user => user.id === id);
 
-		return findUser;
-	}
+    return findUser;
+  }
 
-	public async findByEmail(email: string): Promise<Optional<User>> {
-		const findUser = this.users.find(user => user.email === email);
+  public async findByEmail(email: string): Promise<Optional<User>> {
+    const findUser = this.users.find(user => user.email === email);
 
-		return findUser;
-	}
+    return findUser;
+  }
 
-	public async create(userData: CreateUserDto): Promise<User> {
-		const user = new User();
+  public async create(userData: CreateUserDto): Promise<User> {
+    const user = new User();
 
-		Object.assign(user, {
-			id: faker.random.uuid(),
-			name: userData.name,
-			email: userData.email,
-			password: userData.password,
-			created_at: new Date(),
-			updated_at: new Date(),
-		});
+    Object.assign(user, {
+      id: faker.random.uuid(),
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
 
-		this.save(user);
+    this.save(user);
 
-		return user;
-	}
+    return user;
+  }
 
-	public async deleteById(id: string): Promise<void> {
-		this.users = this.users.filter(user => user.id !== id);
-	}
+  public async deleteById(id: string): Promise<void> {
+    this.users = this.users.filter(user => user.id !== id);
+  }
 
-	public async save(saveUser: User): Promise<User> {
-		const user = deepClone(saveUser);
-		const userIndex = this.users.findIndex(findUser => findUser.id === user.id);
+  public async save(saveUser: User): Promise<User> {
+    const user = deepClone(saveUser);
+    const userIndex = this.users.findIndex(findUser => findUser.id === user.id);
 
-		if (userIndex !== -1) {
-			/** Hack to not break the test when update is executed inmediatly after create.
-			 * In real cases this should not happen
-			 */
-			user.updated_at = new Date(new Date().getTime() + 1); // update the updated_at date
-			this.users[userIndex] = user;
-		} else {
-			this.users.push(user);
-		}
-		return user;
-	}
+    if (userIndex !== -1) {
+      /** Hack to not break the test when update is executed inmediatly after create.
+       * In real cases this should not happen
+       */
+      user.updated_at = new Date(new Date().getTime() + 1); // update the updated_at date
+      this.users[userIndex] = user;
+    } else {
+      this.users.push(user);
+    }
+    return user;
+  }
 }

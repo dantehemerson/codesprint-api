@@ -4,7 +4,7 @@ import { IJWTPayload } from '@modules/users/domain/interfaces/jwt-payload.interf
 import jwt from 'jsonwebtoken';
 
 export class AuthProvider implements IAuthProvider {
-	public signJWT(payload: IJWTPayload): string {
-		return jwt.sign(payload, authConfig.jwtSecret);
-	}
+  public signJWT(payload: IJWTPayload): string {
+    return jwt.sign(payload, authConfig.jwtSecret);
+  }
 }

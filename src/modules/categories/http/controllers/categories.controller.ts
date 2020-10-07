@@ -7,18 +7,18 @@ import { Category } from '@modules/categories/infra/persistence/typeorm/entities
 
 @JsonController('/categories')
 export default class CategoriesController {
-	@HttpCode(HttpStatus.CREATED)
-	@Post()
-	public async create(@Body() body: CreateCategoryDto): Promise<Category> {
-		const { title, parent_id } = body;
+  @HttpCode(HttpStatus.CREATED)
+  @Post()
+  public async create(@Body() body: CreateCategoryDto): Promise<Category> {
+    const { title, parent_id } = body;
 
-		const createCategory = container.resolve(CreateCategoryService);
+    const createCategory = container.resolve(CreateCategoryService);
 
-		const category = await createCategory.execute({
-			title,
-			parent_id,
-		});
+    const category = await createCategory.execute({
+      title,
+      parent_id,
+    });
 
-		return category;
-	}
+    return category;
+  }
 }

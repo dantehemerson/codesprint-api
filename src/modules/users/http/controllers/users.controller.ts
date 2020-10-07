@@ -3,16 +3,16 @@ import { CreateUserDto } from '@modules/users/domain/dto/create-user.dto';
 import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
 import { HttpStatus } from '@shared/enums/http-status.enum';
 import {
-	Body,
-	HttpCode,
-	JsonController,
-	Post,
-	Patch,
-	Param,
-	Delete,
-	OnUndefined,
-	Get,
-	Authorized,
+  Body,
+  HttpCode,
+  JsonController,
+  Post,
+  Patch,
+  Param,
+  Delete,
+  OnUndefined,
+  Get,
+  Authorized,
 } from 'routing-controllers';
 import { container } from 'tsyringe';
 import { UpdateUserDto } from '@modules/users/domain/dto/update-user.dto';
@@ -25,66 +25,66 @@ import { IUserLoginResponse } from '@modules/users/domain/interfaces/user-login-
 
 @JsonController('/users')
 export default class UsersController {
-	@HttpCode(HttpStatus.CREATED)
-	@Post()
-	public async create(
-		@Body() body: CreateUserDto,
-	): Promise<Omit<User, 'password'>> {
-		const createUser = container.resolve(CreateUserService);
+  @HttpCode(HttpStatus.CREATED)
+  @Post()
+  public async create(
+    @Body() body: CreateUserDto,
+  ): Promise<Omit<User, 'password'>> {
+    const createUser = container.resolve(CreateUserService);
 
-		const user = await createUser.execute(body);
+    const user = await createUser.execute(body);
 
-		delete user.password;
+    delete user.password;
 
-		return user;
-	}
+    return user;
+  }
 
-	@Authorized()
-	@HttpCode(HttpStatus.OK)
-	@Get('/:id')
-	public async find(
-		@Param('id') id: string,
-	): Promise<Omit<User, 'password'> | undefined> {
-		const findUser = container.resolve(FindUserService);
+  @Authorized()
+  @HttpCode(HttpStatus.OK)
+  @Get('/:id')
+  public async find(
+    @Param('id') id: string,
+  ): Promise<Omit<User, 'password'> | undefined> {
+    const findUser = container.resolve(FindUserService);
 
-		const user = await findUser.execute(id);
+    const user = await findUser.execute(id);
 
-		delete user?.password;
+    delete user?.password;
 
-		return user;
-	}
+    return user;
+  }
 
-	@HttpCode(HttpStatus.OK)
-	@Patch('/:id')
-	public async update(
-		@Param('id') id: string,
-		@Body() body: UpdateUserDto,
-	): Promise<Omit<User, 'password'>> {
-		const updateUser = container.resolve(UpdateUserService);
+  @HttpCode(HttpStatus.OK)
+  @Patch('/:id')
+  public async update(
+    @Param('id') id: string,
+    @Body() body: UpdateUserDto,
+  ): Promise<Omit<User, 'password'>> {
+    const updateUser = container.resolve(UpdateUserService);
 
-		const user = await updateUser.execute(id, body);
+    const user = await updateUser.execute(id, body);
 
-		delete user.password;
+    delete user.password;
 
-		return user;
-	}
+    return user;
+  }
 
-	@HttpCode(HttpStatus.NO_CONTENT)
-	@OnUndefined(HttpStatus.NO_CONTENT)
-	@Delete('/:id')
-	public async delete(@Param('id') id: string) {
-		const deleteUser = container.resolve(DeleteUserService);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @OnUndefined(HttpStatus.NO_CONTENT)
+  @Delete('/:id')
+  public async delete(@Param('id') id: string) {
+    const deleteUser = container.resolve(DeleteUserService);
 
-		await deleteUser.execute(id);
-	}
+    await deleteUser.execute(id);
+  }
 
-	@HttpCode(HttpStatus.OK)
-	@Post('/login')
-	public async login(
-		@Body() body: UserLoginDto,
-	): Promise<IUserLoginResponse | undefined> {
-		const userLogin = container.resolve(UserLoginService);
+  @HttpCode(HttpStatus.OK)
+  @Post('/login')
+  public async login(
+    @Body() body: UserLoginDto,
+  ): Promise<IUserLoginResponse | undefined> {
+    const userLogin = container.resolve(UserLoginService);
 
-		return userLogin.execute(body.email, body.password);
-	}
+    return userLogin.execute(body.email, body.password);
+  }
 }

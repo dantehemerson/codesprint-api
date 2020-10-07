@@ -1,3 +1,3 @@
 export interface IUserLoginResponse {
-	jwt: string;
+  jwt: string;
 }

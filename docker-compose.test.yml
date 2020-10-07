@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+  postgres-test:
+    image: postgres
+    ports:
+      - 5123:5432
+    environment:
+      POSTGRES_PASSWORD: postgrestest
+      POSTGRES_USER: postgrestest
+      POSTGRES_DB: codesprint

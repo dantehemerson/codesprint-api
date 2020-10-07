@@ -2,25 +2,25 @@ import { IJWTPayload } from '@modules/users/domain/interfaces/jwt-payload.interf
 import { AuthProvider } from './auth.provider';
 
 describe(AuthProvider.name, () => {
-	let service: AuthProvider;
+  let service: AuthProvider;
 
-	beforeEach(() => {
-		jest.clearAllMocks();
-		service = new AuthProvider();
-	});
+  beforeEach(() => {
+    jest.clearAllMocks();
+    service = new AuthProvider();
+  });
 
-	it('should be defined', () => {
-		expect(service).toBeDefined();
-	});
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 
-	it('should sign jwt', () => {
-		const payload: IJWTPayload = {
-			email: 'dante@gmail.com',
-			userId: 'idk',
-		};
+  it('should sign jwt', () => {
+    const payload: IJWTPayload = {
+      email: 'dante@gmail.com',
+      userId: 'idk',
+    };
 
-		const result = service.signJWT(payload);
+    const result = service.signJWT(payload);
 
-		expect(typeof result).toBe('string');
-	});
+    expect(typeof result).toBe('string');
+  });
 });
