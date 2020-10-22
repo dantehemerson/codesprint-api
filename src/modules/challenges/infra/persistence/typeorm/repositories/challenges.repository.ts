@@ -1,0 +1,31 @@
+import { CreateChallengeDto } from '@modules/challenges/domain/dto/create-challenge.dto';
+import { IChallengesRepository } from '@modules/challenges/domain/interfaces/challenges-repository.interface';
+import { Challenge } from '@modules/challenges/infra/persistence/typeorm/entities/challenge.entity';
+import { getRepository, Repository } from 'typeorm';
+
+export class ChallengesRepository implements IChallengesRepository {
+  private ormRepository: Repository<Challenge>;
+
+  constructor() {
+    this.ormRepository = getRepository(Challenge);
+  }
+
+  async findById(id: string): Promise<Challenge | undefined> {
+    const user = await this.ormRepository.findOne(id);
+
+    return user;
+  }
+
+  async create(data: CreateChallengeDto): Promise<Challenge> {
+    const user = await this.ormRepository.create(data);
+    return this.save(user);
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.ormRepository.delete({ id });
+  }
+
+  async save(user: Challenge): Promise<Challenge> {
+    return this.ormRepository.save(user);
+  }
+}

@@ -27,7 +27,7 @@
 		"@typescript-eslint/no-unused-vars": [
 			"error",
 			{
-				"argsIgnorePattern": "_$"
+				"argsIgnorePattern": "_$|type"
 			}
 		],
 		"@typescript-eslint/explicit-module-boundary-types": "off",
