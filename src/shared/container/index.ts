@@ -6,6 +6,7 @@ import { IAuthProvider } from '@modules/users/domain/interfaces/auth-provider.in
 import { IUsersRepository } from '@modules/users/domain/interfaces/user-repository.interface';
 import UsersRepository from '@modules/users/infra/persistence/typeorm/repositories/user.repository';
 import '@modules/users/infra/providers';
+import '@modules/challenges/infra/providers';
 import { AuthProvider } from '@modules/users/infra/providers/auth.provider';
 import { container } from 'tsyringe';
 
