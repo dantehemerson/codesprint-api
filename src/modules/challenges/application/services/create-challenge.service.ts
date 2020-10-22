@@ -11,7 +11,10 @@ export class CreateChallengeService {
   ) {}
 
   async execute(data: CreateChallengeDto): Promise<Challenge> {
-    const challenge = await this.challengesRepository.create(data);
+    const challenge = await this.challengesRepository.create({
+      ...data,
+      bodyHtml: 'asldkfj',
+    });
 
     return challenge;
   }

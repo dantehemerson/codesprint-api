@@ -10,7 +10,7 @@
 		"dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
 		"lint": "eslint ./src/**/*.ts --fix",
 		"format": "prettier --write \"src/**/*.ts\"",
-		"typeorm": "ts-node ./node_modules/typeorm/cli.js"
+		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
 	},
 	"devDependencies": {
 		"@types/bcryptjs": "^2.4.2",

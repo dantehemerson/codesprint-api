@@ -1,7 +1,6 @@
-import { CreateChallengeDto } from '@modules/challenges/domain/dto/create-challenge.dto';
 import { IChallengesRepository } from '@modules/challenges/domain/interfaces/challenges-repository.interface';
 import { Challenge } from '@modules/challenges/infra/persistence/typeorm/entities/challenge.entity';
-import { getRepository, Repository } from 'typeorm';
+import { DeepPartial, getRepository, Repository } from 'typeorm';
 
 export class ChallengesRepository implements IChallengesRepository {
   private ormRepository: Repository<Challenge>;
@@ -16,7 +15,7 @@ export class ChallengesRepository implements IChallengesRepository {
     return user;
   }
 
-  async create(data: CreateChallengeDto): Promise<Challenge> {
+  async create(data: DeepPartial<Challenge>): Promise<Challenge> {
     const user = await this.ormRepository.create(data);
     return this.save(user);
   }
