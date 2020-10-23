@@ -14,7 +14,9 @@ export class CreateChallengeService {
     private markdownProcessorProvider: IMarkdownProcessorProvider,
   ) {}
 
-  async execute(data: CreateChallengeDto): Promise<Challenge> {
+  async execute(
+    data: CreateChallengeDto & { createdBy: string },
+  ): Promise<Challenge> {
     const bodyHtml = await this.markdownProcessorProvider.toHTML(
       data.bodyMarkdown,
     );
