@@ -6,8 +6,8 @@
 	"scripts": {
 		"build": "tsc",
 		"test": "jest",
-		"predev:server": "docker-compose up -d",
-		"dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+		"prestart:dev": "docker-compose up -d",
+		"start:dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
 		"lint": "eslint ./src/**/*.ts --fix",
 		"format": "prettier --write \"src/**/*.ts\"",
 		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
