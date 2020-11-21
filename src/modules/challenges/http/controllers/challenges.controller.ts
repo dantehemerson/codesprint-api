@@ -1,4 +1,5 @@
 import { CreateChallengeService } from '@modules/challenges/application/services/create-challenge.service';
+import { FindChallengesService } from '@modules/challenges/application/services/find-challenges.service';
 import { CreateChallengeDto } from '@modules/challenges/domain/dto/create-challenge.dto';
 import { Challenge } from '@modules/challenges/infra/persistence/typeorm/entities/challenge.entity';
 import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
@@ -7,6 +8,7 @@ import {
   Authorized,
   Body,
   CurrentUser,
+  Get,
   HttpCode,
   JsonController,
   Post,
@@ -30,5 +32,16 @@ export default class ChallengesController {
     });
 
     return challenge;
+  }
+
+  @Authorized()
+  @HttpCode(HttpStatus.OK)
+  @Get()
+  public async find(): Promise<Challenge[]> {
+    const findChallenges = container.resolve(FindChallengesService);
+
+    const challenges = await findChallenges.execute();
+
+    return challenges;
   }
 }

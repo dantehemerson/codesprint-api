@@ -9,6 +9,15 @@ export class ChallengesRepository implements IChallengesRepository {
     this.ormRepository = getRepository(Challenge);
   }
 
+  async findAll(): Promise<Challenge[]> {
+    return (
+      this.ormRepository
+        .createQueryBuilder('challenge')
+        // .leftJoinAndSelect('challenge.createdBy', 'challenge.createdBy')
+        .getMany()
+    );
+  }
+
   async findById(id: string): Promise<Challenge | undefined> {
     const user = await this.ormRepository.findOne(id);
 

@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
   OneToMany,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('challenges')
@@ -37,6 +38,7 @@ export class Challenge {
   categories: string[];
 
   @OneToOne(type => User, user => user.id)
+  @JoinColumn()
   createdBy: string;
 
   @CreateDateColumn()
