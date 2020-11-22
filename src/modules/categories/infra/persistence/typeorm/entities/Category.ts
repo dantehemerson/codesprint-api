@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  Index,
 } from 'typeorm';
 
 @Entity('categories')
@@ -19,6 +20,14 @@ export class Category {
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'parent_id' })
   parent: Category;
+
+  /** Color to diferenciate the category */
+  @Column({ default: '#00000000' })
+  color: string;
+
+  @Index({ unique: true })
+  @Column()
+  slug: string;
 
   @Column()
   title: string;

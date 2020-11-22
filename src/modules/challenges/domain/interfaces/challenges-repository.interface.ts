@@ -5,5 +5,5 @@ export interface IChallengesRepository {
   findById(id: string): Promise<Challenge | undefined>;
   deleteById(id: string): Promise<void>;
   create(data: Partial<Challenge>): Promise<Challenge>;
-  save(user: Challenge): Promise<Challenge>;
+  save(user: Partial<Challenge>): Promise<Challenge>;
 }
