@@ -10,16 +10,16 @@ export class ChallengesRepository implements IChallengesRepository {
   }
 
   async findAll(): Promise<Challenge[]> {
-    return (
-      this.ormRepository
-        .createQueryBuilder('challenge')
-        // .leftJoinAndSelect('challenge.createdBy', 'challenge.createdBy')
-        .getMany()
-    );
+    return this.ormRepository
+      .createQueryBuilder('challenge')
+      .leftJoinAndSelect('challenge.createdBy', 'createdBy')
+      .getMany();
   }
 
   async findById(id: string): Promise<Challenge | undefined> {
-    const user = await this.ormRepository.findOne(id);
+    const user = await this.ormRepository.findOne(id, {
+      relations: ['createdBy'],
+    });
 
     return user;
   }

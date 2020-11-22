@@ -6,9 +6,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
-  OneToOne,
   JoinColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity('challenges')
@@ -27,19 +28,22 @@ export class Challenge {
   thumbnail: string;
 
   /** bodyMarkdown parsed to html */
-  @Column()
+  @Column({ type: 'text' })
   bodyHtml: string;
 
   /** content of the challenge in MD */
-  @Column()
+  @Column({ type: 'text' })
   bodyMarkdown: string;
 
-  @OneToMany(type => Category, category => category.id)
+  @ManyToMany(type => Category, category => category.id)
+  @JoinTable()
   categories: string[];
 
-  @OneToOne(type => User, user => user.id)
-  @JoinColumn()
-  createdBy: string;
+  @ManyToOne(type => User, user => user.id, {
+    nullable: false,
+  })
+  @JoinColumn({ name: 'createdBy' })
+  createdBy: User;
 
   @CreateDateColumn()
   createdAt: Date;

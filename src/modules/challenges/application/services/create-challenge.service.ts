@@ -24,7 +24,7 @@ export class CreateChallengeService {
     const challenge = await this.challengesRepository.create({
       ...data,
       bodyHtml,
-    });
+    } as any);
 
     return challenge;
   }
