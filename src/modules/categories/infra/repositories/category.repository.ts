@@ -1,5 +1,5 @@
 import { ICategoriesRepository } from '@modules/categories/domain/interfaces/category-repository.interface';
-import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
+import { Category } from '@modules/categories/infra/persistence/typeorm/entities/category.entity';
 import { getRepository, Repository } from 'typeorm';
 
 export class CategoriesRepository implements ICategoriesRepository {

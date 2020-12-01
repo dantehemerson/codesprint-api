@@ -1,4 +1,4 @@
-import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
+import { Category } from '@modules/categories/infra/persistence/typeorm/entities/category.entity';
 import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
 import {
   Entity,

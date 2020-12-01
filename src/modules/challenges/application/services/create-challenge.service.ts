@@ -23,6 +23,7 @@ export class CreateChallengeService {
 
     const challenge = await this.challengesRepository.create({
       ...data,
+      categories: [{ id: data.categories[0] }],
       bodyHtml,
     } as any);
 

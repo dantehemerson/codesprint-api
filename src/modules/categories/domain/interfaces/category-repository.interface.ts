@@ -1,4 +1,4 @@
-import { Category } from '@modules/categories/infra/persistence/typeorm/entities/Category';
+import { Category } from '@modules/categories/infra/persistence/typeorm/entities/category.entity';
 
 export interface ICategoriesRepository {
   findById(id: string): Promise<Category | undefined>;

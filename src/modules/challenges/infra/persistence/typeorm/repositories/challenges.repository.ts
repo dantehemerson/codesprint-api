@@ -18,7 +18,7 @@ export class ChallengesRepository implements IChallengesRepository {
 
   async findById(id: string): Promise<Challenge | undefined> {
     const user = await this.ormRepository.findOne(id, {
-      relations: ['createdBy'],
+      relations: ['createdBy', 'categories'],
     });
 
     return user;
