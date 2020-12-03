@@ -1,4 +1,6 @@
 import { CreateChallengeService } from '@modules/challenges/application/services/create-challenge.service';
+import { FindChallengeService } from '@modules/challenges/application/services/find-challenge.service';
+import { FindChallengesService } from '@modules/challenges/application/services/find-challenges.service';
 import { CreateChallengeDto } from '@modules/challenges/domain/dto/create-challenge.dto';
 import { Challenge } from '@modules/challenges/infra/persistence/typeorm/entities/challenge.entity';
 import { User } from '@modules/users/infra/persistence/typeorm/entities/user.entity';
@@ -7,8 +9,10 @@ import {
   Authorized,
   Body,
   CurrentUser,
+  Get,
   HttpCode,
   JsonController,
+  Param,
   Post,
 } from 'routing-controllers';
 import { container } from 'tsyringe';
@@ -28,6 +32,28 @@ export default class ChallengesController {
       ...body,
       createdBy,
     });
+
+    return challenge;
+  }
+
+  @Authorized()
+  @HttpCode(HttpStatus.OK)
+  @Get()
+  public async find(): Promise<Challenge[]> {
+    const findChallenges = container.resolve(FindChallengesService);
+
+    const challenges = await findChallenges.execute();
+
+    return challenges;
+  }
+
+  @Authorized()
+  @HttpCode(HttpStatus.OK)
+  @Get('/:id')
+  public async findOne(@Param('id') id: string): Promise<Challenge> {
+    const findChallenge = container.resolve(FindChallengeService);
+
+    const challenge = await findChallenge.execute(id);
 
     return challenge;
   }

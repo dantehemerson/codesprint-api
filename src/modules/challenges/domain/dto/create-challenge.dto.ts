@@ -1,10 +1,13 @@
 import {
+  ArrayMaxSize,
   IsArray,
   IsNotEmpty,
   IsOptional,
   IsString,
   IsUrl,
   IsUUID,
+  Max,
+  MaxLength,
 } from 'class-validator';
 
 export class CreateChallengeDto {
@@ -26,6 +29,10 @@ export class CreateChallengeDto {
   bodyMarkdown: string;
 
   @IsArray()
-  @IsUUID('all', { each: true })
+  @ArrayMaxSize(5, {
+    message: 'You can not set more than 5 categories to a challenge',
+  })
+  @IsNotEmpty({ each: true })
+  @IsString({ each: true })
   categories: string[];
 }
