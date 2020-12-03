@@ -1,4 +1,4 @@
-import { CreateCategoryService } from '@modules/categories/application/services/create-category.service';
+import { CreateCategoryByTitleService } from '@modules/categories/application/services/create-categories.service';
 import { CreateCategoryDto } from '@modules/categories/domain/dto/create-category.dto';
 import { HttpStatus } from '@shared/enums/http-status.enum';
 import { Body, HttpCode, JsonController, Post } from 'routing-controllers';
@@ -12,7 +12,7 @@ export default class CategoriesController {
   public async create(@Body() body: CreateCategoryDto): Promise<Category> {
     const { title, parent_id } = body;
 
-    const createCategory = container.resolve(CreateCategoryService);
+    const createCategory = container.resolve(CreateCategoryByTitleService);
 
     const category = await createCategory.execute({
       title,

@@ -5,5 +5,8 @@ export interface ICategoriesRepository {
   findByTitle(title: string): Promise<Category | undefined>;
   findBySlug(slug: string): Promise<Category | undefined>;
   create(data: Partial<Category>): Promise<Category>;
+  createIfNotExists(
+    categories: Array<Partial<Category>>,
+  ): Promise<Array<{ id: string }>>;
   save(category: Partial<Category>): Promise<Category>;
 }

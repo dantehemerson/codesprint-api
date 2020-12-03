@@ -2,28 +2,38 @@ import { CreateChallengeDto } from '@modules/challenges/domain/dto/create-challe
 import { IChallengesRepository } from '@modules/challenges/domain/interfaces/challenges-repository.interface';
 import { IMarkdownProcessorProvider } from '@modules/challenges/domain/interfaces/markdown-processor-provider.interface';
 import { Challenge } from '@modules/challenges/infra/persistence/typeorm/entities/challenge.entity';
-import { inject, injectable } from 'tsyringe';
+import { CreateCategoryByTitleService } from '@modules/categories/application/services/create-categories.service';
+import { container, inject, injectable } from 'tsyringe';
 
 @injectable()
 export class CreateChallengeService {
   constructor(
     @inject('ChallengesRepository')
-    private challengesRepository: IChallengesRepository,
+    private readonly challengesRepository: IChallengesRepository,
 
     @inject('MarkdownProcessorProvider')
-    private markdownProcessorProvider: IMarkdownProcessorProvider,
+    private readonly markdownProcessorProvider: IMarkdownProcessorProvider,
   ) {}
 
   async execute(
     data: CreateChallengeDto & { createdBy: string },
-  ): Promise<Challenge> {
+  ): Promise<Challenge | null> {
+    const createCategoriesService = container.resolve(
+      CreateCategoryByTitleService,
+    );
+
+    const categories =
+      data.categories.length > 0
+        ? await createCategoriesService.execute(data.categories)
+        : [];
+
     const bodyHtml = await this.markdownProcessorProvider.toHTML(
       data.bodyMarkdown,
     );
 
     const challenge = await this.challengesRepository.create({
       ...data,
-      categories: [{ id: data.categories[0] }],
+      categories,
       bodyHtml,
     } as any);
 
