@@ -17,7 +17,7 @@ export class CreateChallengeService {
 
   async execute(
     data: CreateChallengeDto & { createdBy: string },
-  ): Promise<Challenge | null> {
+  ): Promise<Challenge> {
     const createCategoriesService = container.resolve(
       CreateCategoryByTitleService,
     );

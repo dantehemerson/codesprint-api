@@ -6,7 +6,7 @@ export class CreateCategoryDto {
 
   @IsString()
   @IsOptional()
-  slug: string;
+  slug?: string;
 
   @IsOptional()
   @IsUUID()
