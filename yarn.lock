@@ -5709,6 +5709,11 @@ swagger-ui-express@^4.1.5:
   dependencies:
     swagger-ui-dist "^3.18.1"
 
+swagger-ui-themes@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/swagger-ui-themes/-/swagger-ui-themes-3.0.1.tgz#2b67b1f67c20cad9e41758d7176b5a48ec2dee11"
+  integrity sha512-oQpH1uVJVio5R453YvyF3CJzwoEnIfJvWlwwFA0g4AX2NvnnjaT9wAT5kbFLs8pFhfGeq/mA/VlTOFYllm5Rzg==
+
 symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"

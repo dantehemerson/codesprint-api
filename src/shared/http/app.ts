@@ -18,6 +18,10 @@ import { routingControllersToSpec } from 'routing-controllers-openapi';
 import { Connection } from 'typeorm';
 import * as swaggerUiExpress from 'swagger-ui-express';
 
+// const swaggerTheme = require('swagger-ui-themes/themes/3.x/theme-flattop.css');
+
+// console.log('Dante ~ file: app.ts ~ line 21 ~ swaggerTheme', swaggerTheme);
+
 export class App {
   public typormConnection: Connection;
   private expressApp: Application;
@@ -85,6 +89,8 @@ export class App {
       swaggerUiExpress.serve,
       swaggerUiExpress.setup(spec, {
         customSiteTitle: 'CodeSprint API',
+        customCssUrl:
+          'https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.1/themes/3.x/theme-flattop.css',
       }),
     );
   }
