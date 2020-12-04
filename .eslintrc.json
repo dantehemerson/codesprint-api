@@ -33,6 +33,7 @@
 		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"camelcase": "off",
     "no-param-reassign":"off",
+    "lines-between-class-members": "off",
 		"@typescript-eslint/naming-convention": [
 			"error",
 			{
