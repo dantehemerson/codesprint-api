@@ -20,11 +20,7 @@ export class App {
     this.typormConnection = await connection;
     this.expressApp = createExpressServer({
       controllers: [
-        join(
-          __dirname,
-          '..',
-          './src/modules/**/http/controllers/*.controller.ts',
-        ),
+        join(process.cwd(), 'src/modules/**/http/controllers/*.controller.ts'),
       ],
       authorizationChecker,
       currentUserChecker: async (action: Action) => action.request.user,
