@@ -32,14 +32,12 @@ export class CategoriesRepository implements ICategoriesRepository {
 
   async createIfNotExists(
     categories: Array<Partial<Category>>,
-  ): Promise<Array<{ id: string }>> {
+  ): Promise<Array<Category>> {
     const categorySlugs = categories.map(category => category.slug);
 
     const existentCategories = await this.ormRepository.find({
       where: { slug: In(categorySlugs) },
-      select: ['id', 'slug'],
     });
-    const ids = existentCategories.map(({ id }) => ({ id }));
 
     const notExistentCategories = categories.filter(
       category =>
@@ -47,18 +45,19 @@ export class CategoriesRepository implements ICategoriesRepository {
     );
 
     if (notExistentCategories.length === 0) {
-      return ids;
+      return existentCategories;
     }
 
     const insertedCategories = await this.ormRepository
       .createQueryBuilder()
       .insert()
       .values(notExistentCategories)
+      .returning('*')
       .execute();
 
-    ids.push(...(insertedCategories.identifiers as any));
+    existentCategories.push(...insertedCategories.raw);
 
-    return ids;
+    return existentCategories;
   }
 
   async save(category: Partial<Category>): Promise<Category> {

@@ -1,5 +1,6 @@
 import { CreateCategoryDto } from '@modules/categories/domain/dto/create-category.dto';
 import { ICategoriesRepository } from '@modules/categories/domain/interfaces/category-repository.interface';
+import { Category } from '@modules/categories/infra/persistence/typeorm/entities/category.entity';
 import slugify from 'slugify';
 import { inject, injectable } from 'tsyringe';
 
@@ -10,7 +11,7 @@ export class CreateCategoryByTitleService {
     private categoriesRepository: ICategoriesRepository,
   ) {}
 
-  async execute(titles: string[]): Promise<Array<{ id: string }>> {
+  async execute(titles: string[]): Promise<Array<Category>> {
     const newCategories: CreateCategoryDto[] = titles.map(categoryTitle => ({
       title: categoryTitle,
       slug: slugify(categoryTitle, {

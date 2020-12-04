@@ -37,13 +37,13 @@ export class Challenge {
 
   @ManyToMany(type => Category, category => category.id)
   @JoinTable()
-  categories: string[];
+  categories: Category[];
 
   @ManyToOne(type => User, user => user.id, {
     nullable: false,
   })
   @JoinColumn({ name: 'createdBy' })
-  createdBy: User;
+  createdBy: User | string;
 
   @CreateDateColumn()
   createdAt: Date;
