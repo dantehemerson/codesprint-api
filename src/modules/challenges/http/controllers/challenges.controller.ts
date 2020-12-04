@@ -16,10 +16,13 @@ import {
   Post,
 } from 'routing-controllers';
 import { container } from 'tsyringe';
+import { OpenAPI } from 'routing-controllers-openapi';
 
+@OpenAPI({ security: [{ bearerAuth: [] }] })
 @JsonController('/challenges')
 export default class ChallengesController {
   @Authorized()
+  @OpenAPI({ summary: 'Create a new challenge' })
   @HttpCode(HttpStatus.CREATED)
   @Post()
   public async create(
@@ -37,6 +40,7 @@ export default class ChallengesController {
   }
 
   @Authorized()
+  @OpenAPI({ summary: 'Find challenges' })
   @HttpCode(HttpStatus.OK)
   @Get()
   public async find(): Promise<Challenge[]> {
@@ -48,6 +52,7 @@ export default class ChallengesController {
   }
 
   @Authorized()
+  @OpenAPI({ summary: 'Find challenge by id' })
   @HttpCode(HttpStatus.OK)
   @Get('/:id')
   public async findOne(@Param('id') id: string): Promise<Challenge> {

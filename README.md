@@ -27,3 +27,9 @@ yarn install
 ```
 yarn start:dev
 ```
+
+You can see the service running on: `http://localhost:3123` by default.
+
+**Docs**
+
+We have an ednpoint for [Swagger OAS](https://swagger.io/solutions/getting-started-with-oas/) which is available at `/docs` endpoint.
