@@ -2,7 +2,7 @@ import { CreateChallengeDto } from '@modules/challenges/domain/dto/create-challe
 import { IChallengesRepository } from '@modules/challenges/domain/interfaces/challenges-repository.interface';
 import { IMarkdownProcessorProvider } from '@modules/challenges/domain/interfaces/markdown-processor-provider.interface';
 import { Challenge } from '@modules/challenges/infra/persistence/typeorm/entities/challenge.entity';
-import { CreateCategoryByTitleService } from '@modules/categories/application/services/create-categories.service';
+import { CreateCategoryByTitleService } from '@modules/categories/application/services/create-categories-by-title.service';
 import { container, inject, injectable } from 'tsyringe';
 
 @injectable()
@@ -35,7 +35,7 @@ export class CreateChallengeService {
       ...data,
       categories,
       bodyHtml,
-    } as any);
+    });
 
     return challenge;
   }

@@ -7,6 +7,6 @@ export interface ICategoriesRepository {
   create(data: Partial<Category>): Promise<Category>;
   createIfNotExists(
     categories: Array<Partial<Category>>,
-  ): Promise<Array<{ id: string }>>;
+  ): Promise<Array<Category>>;
   save(category: Partial<Category>): Promise<Category>;
 }
