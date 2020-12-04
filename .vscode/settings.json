@@ -1,0 +1,15 @@
+{
+	// Hide unused directories, files.
+	"files.exclude": {
+		"**/dist": true,
+		".database": true,
+		"**/node_modules": true,
+		"yarn.lock": true,
+		".cache": true
+	},
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true,
+		"autoFixOnSave": true
+	}
+}
