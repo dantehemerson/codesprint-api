@@ -1,1 +1,1 @@
-import '@shared/http/server';
+import '@shared/infra/http/server';

@@ -1,7 +1,7 @@
 import request from 'supertest';
 import * as faker from 'faker';
 import { HttpStatus } from '@shared/enums/http-status.enum';
-import { App } from '../shared/http/app';
+import { App } from '@shared/infra/http/app';
 import { aUUID, aISODate } from './helpers/matchers.helper';
 
 jest.mock('../shared/infra/typeorm');

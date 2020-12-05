@@ -4,3 +4,6 @@ node_modules/
 .database
 coverage
 dist/
+
+# We are using yarn
+package-lock.json

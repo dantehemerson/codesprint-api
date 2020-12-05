@@ -1,6 +1,6 @@
 import '@shared/container';
-import { authorizationChecker } from '@shared/http/routing-controllers/authorization-checker.helper';
-import { jwtStrategy } from '@shared/http/strategies/jwt.strategy';
+import { authorizationChecker } from '@shared/infra/http/routing-controllers/authorization-checker.helper';
+import { jwtStrategy } from '@shared/infra/http/strategies/jwt.strategy';
 import { connection } from '@shared/infra/typeorm';
 import { defaultMetadataStorage } from 'class-transformer/storage';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
