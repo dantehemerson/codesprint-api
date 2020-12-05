@@ -27,7 +27,10 @@ export class App {
   private expressApp: Application;
   private readonly routingControllersOptions: RoutingControllersOptions = {
     controllers: [
-      join(process.cwd(), 'src/modules/**/http/controllers/*.controller.ts'),
+      join(
+        process.cwd(),
+        'src/modules/**/infra/http/controllers/*.controller.ts',
+      ),
     ],
     authorizationChecker,
     currentUserChecker: async (action: Action) => action.request.user,
