@@ -31,6 +31,7 @@ export class UpdateUserService {
       await this.checkUserExistsByEmail(data.email);
     }
 
+    // TODO: we need separate this to a specific method, it needs more requirements to be changed
     if (data.password) {
       data.password = await this.hashProvider.generateHash(data.password);
     }

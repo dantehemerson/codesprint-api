@@ -34,7 +34,8 @@ export default class UsersController {
 
     const user = await createUser.execute(body);
 
-    delete user.password;
+    /** Don't return hashed password for security */
+    user.password = undefined as never;
 
     return user;
   }
@@ -49,8 +50,6 @@ export default class UsersController {
 
     const user = await findUser.execute(id);
 
-    delete user?.password;
-
     return user;
   }
 
@@ -63,8 +62,6 @@ export default class UsersController {
     const updateUser = container.resolve(UpdateUserService);
 
     const user = await updateUser.execute(id, body);
-
-    delete user.password;
 
     return user;
   }
