@@ -1,6 +1,6 @@
 const { execSync } = require('child_process');
 
-module.exports = async function () {
+module.exports = function () {
 	const stdout = execSync(
 		'docker-compose -p docker_app_test -f docker-compose.test.yml down',
 	);

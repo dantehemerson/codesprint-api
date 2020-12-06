@@ -69,7 +69,7 @@ describe('App Integrations tests', () => {
           .expect(HttpStatus.NOT_FOUND)
           .expect(({ body }) => {
             expect(body).toMatchObject({
-              message: 'User not founds',
+              message: 'User not found',
               name: 'NotFoundError',
             });
           });
