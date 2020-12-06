@@ -5,6 +5,7 @@ import { connection } from '@shared/infra/typeorm';
 import { defaultMetadataStorage } from 'class-transformer/storage';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { Application } from 'express';
+import http from 'http';
 import passport from 'passport';
 import { join } from 'path';
 import 'reflect-metadata';
@@ -15,9 +16,8 @@ import {
   RoutingControllersOptions,
 } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
-import { Connection } from 'typeorm';
 import * as swaggerUiExpress from 'swagger-ui-express';
-import http from 'http';
+import { Connection } from 'typeorm';
 
 export class App {
   public typormConnection: Connection;
@@ -105,15 +105,15 @@ export class App {
   }
 
   async listen(port?: number) {
-    return new Promise(resolve => {
-      this.server.listen(port, () => {
-        return resolve();
-      });
-    });
+    return new Promise((resolve, reject) =>
+      this.server.listen(port).once('listening', resolve).once('error', reject),
+    );
   }
 
   async close() {
     await this.getConnnection().close();
-    this.server.close();
+    await new Promise((resolve, reject) =>
+      this.server.close().once('close', resolve).once('error', reject),
+    );
   }
 }
