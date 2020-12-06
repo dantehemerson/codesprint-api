@@ -32,9 +32,9 @@ describe(UserLoginService.name, () => {
   });
 
   it("should reject UnauthorizedError when user doesn't exist", async () => {
-    const spyFakeUsersRepository = jest.spyOn(
+    const spyFindByEmailAndReturnPassword = jest.spyOn(
       fakeUsersRepository,
-      'findByEmail',
+      'findByEmailAndReturnPassword',
     );
 
     await expect(
@@ -42,7 +42,7 @@ describe(UserLoginService.name, () => {
     ).rejects.toBeInstanceOf(UnauthorizedError);
 
     /** should call to find for user */
-    expect(spyFakeUsersRepository).toHaveBeenCalled();
+    expect(spyFindByEmailAndReturnPassword).toHaveBeenCalled();
   });
 
   it('should resolve when password passed match', async () => {
