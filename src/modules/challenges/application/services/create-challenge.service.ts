@@ -4,6 +4,7 @@ import { IMarkdownProcessorProvider } from '@modules/challenges/domain/interface
 import { Challenge } from '@modules/challenges/infra/persistence/typeorm/entities/challenge.entity';
 import { CreateCategoryByTitleService } from '@modules/categories/application/services/create-categories-by-title.service';
 import { container, inject, injectable } from 'tsyringe';
+import { Logger } from '@shared/infra/providers/logger.provider';
 
 @injectable()
 export class CreateChallengeService {
@@ -13,6 +14,9 @@ export class CreateChallengeService {
 
     @inject('MarkdownProcessorProvider')
     private readonly markdownProcessorProvider: IMarkdownProcessorProvider,
+
+    @inject(Logger.name)
+    private readonly logger: Logger,
   ) {}
 
   async execute(
@@ -36,6 +40,8 @@ export class CreateChallengeService {
       categories,
       bodyHtml,
     });
+
+    this.logger.info('Challenge created', challenge);
 
     return challenge;
   }

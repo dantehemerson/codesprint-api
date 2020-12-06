@@ -9,8 +9,11 @@ import '@modules/users/infra/providers';
 import '@modules/challenges/infra/providers';
 import { AuthProvider } from '@modules/users/infra/providers/auth.provider';
 import { container } from 'tsyringe';
+import { ILoggerProvider } from '@shared/domain/interfaces/logger.interface';
+import { Logger } from '@shared/infra/providers/logger.provider';
 
 container.registerSingleton<IAuthProvider>(AuthProvider.name, AuthProvider);
+container.registerSingleton<ILoggerProvider>(Logger.name, Logger);
 
 container.registerSingleton<IUsersRepository>(
   UsersRepository.name,

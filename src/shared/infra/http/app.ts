@@ -17,15 +17,13 @@ import {
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import { Connection } from 'typeorm';
 import * as swaggerUiExpress from 'swagger-ui-express';
-
-// const swaggerTheme = require('swagger-ui-themes/themes/3.x/theme-flattop.css');
-
-// console.log('Dante ~ file: app.ts ~ line 21 ~ swaggerTheme', swaggerTheme);
+import { WinstonLoggerMiddleware } from './middleware/logger.middleware';
 
 export class App {
   public typormConnection: Connection;
   private expressApp: Application;
   private readonly routingControllersOptions: RoutingControllersOptions = {
+    middlewares: [WinstonLoggerMiddleware],
     controllers: [
       join(
         process.cwd(),
