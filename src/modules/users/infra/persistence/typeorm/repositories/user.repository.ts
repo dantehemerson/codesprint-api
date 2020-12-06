@@ -22,6 +22,18 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
+  async findByEmailAndReturnPassword(email: string): Promise<User | undefined> {
+    const user = await this.ormRepository
+      .createQueryBuilder()
+      .where({
+        email,
+      })
+      .addSelect('User.password')
+      .getOne();
+
+    return user;
+  }
+
   async create(userData: CreateUserDto): Promise<User> {
     const user = await this.ormRepository.create(userData);
     return this.save(user);
