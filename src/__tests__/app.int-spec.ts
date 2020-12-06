@@ -10,9 +10,12 @@ describe('App Integrations tests', () => {
   let app: App;
   beforeAll(async () => {
     app = new App();
-
     await app.init();
     await app.listen();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   it('should be defined', () => {
@@ -72,11 +75,5 @@ describe('App Integrations tests', () => {
           });
       });
     });
-  });
-
-  afterAll(async () => {
-    console.log('Finaklizando la conneccion', app.typormConnection.isConnected);
-    await app.close();
-    console.log('Finalizando la conneccion', app.typormConnection.isConnected);
   });
 });

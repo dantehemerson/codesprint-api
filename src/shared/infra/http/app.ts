@@ -17,10 +17,12 @@ import {
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import { Connection } from 'typeorm';
 import * as swaggerUiExpress from 'swagger-ui-express';
+import http from 'http';
 
 export class App {
   public typormConnection: Connection;
   private expressApp: Application;
+  private server: http.Server;
   private readonly routingControllersOptions: RoutingControllersOptions = {
     controllers: [
       join(
@@ -37,7 +39,7 @@ export class App {
 
     this.typormConnection = await connection;
     this.expressApp = createExpressServer(this.routingControllersOptions);
-
+    this.server = http.createServer(this.expressApp);
     this.initMiddleware();
 
     this.expressApp.get('/', (_, res) => {
@@ -95,26 +97,23 @@ export class App {
   }
 
   getServer() {
-    return this.expressApp;
+    return this.server;
   }
 
   getConnnection() {
     return this.typormConnection;
   }
 
-  listen(port?: number) {
+  async listen(port?: number) {
     return new Promise(resolve => {
-      this.expressApp.listen(port, () => {
+      this.server.listen(port, () => {
         return resolve();
       });
     });
   }
 
   async close() {
-    // console.log('Esta conectado', this.getConnnection().isConnected);
-    console.log('Finalizando la conneccion');
     await this.getConnnection().close();
-
-    // console.log('Esta conectado', this.getConnnection().isConnected);
+    this.server.close();
   }
 }
