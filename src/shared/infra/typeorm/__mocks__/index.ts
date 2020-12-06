@@ -13,6 +13,7 @@ export const connection = createConnection({
   port: 5123,
   username: 'postgrestest',
   password: 'postgrestest',
+  synchronize: true,
   database: 'codesprint',
   entities: ['./src/modules/**/infra/persistence/typeorm/entities/*.ts'],
   migrations: ['./src/shared/infra/typeorm/migrations/*.ts'],
