@@ -1,7 +1,8 @@
 const { execSync } = require('child_process');
 
-module.exports = async function (reas) {
-  console.log('Eliminando la imagen de docker')
+module.exports = async function () {
+
+  console.log('Eliminando la imagen de docker', process.env.CI)
 	const stdout = execSync(
 		'docker-compose -p docker_app_test -f docker-compose.test.yml down',
 	);
