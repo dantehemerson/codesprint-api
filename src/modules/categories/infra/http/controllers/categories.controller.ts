@@ -10,13 +10,12 @@ export default class CategoriesController {
   @HttpCode(HttpStatus.CREATED)
   @Post()
   public async create(@Body() body: CreateCategoryDto): Promise<Category> {
-    const { title, parent_id } = body;
+    const { title } = body;
 
     const createCategory = container.resolve(CreateCategoryService);
 
     const category = await createCategory.execute({
       title,
-      parent_id,
     });
 
     return category;

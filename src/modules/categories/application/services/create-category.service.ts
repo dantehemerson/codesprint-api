@@ -12,7 +12,7 @@ export class CreateCategoryService {
     private categoriesRepository: ICategoriesRepository,
   ) {}
 
-  async execute({ title, parent_id }: CreateCategoryDto): Promise<Category> {
+  async execute({ title }: CreateCategoryDto): Promise<Category> {
     title = title.trim();
     const slug = slugify(title, {
       replacement: '-',
@@ -31,7 +31,6 @@ export class CreateCategoryService {
     const category = await this.categoriesRepository.create({
       title,
       slug,
-      parent_id,
     });
 
     return category;
