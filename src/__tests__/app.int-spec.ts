@@ -75,6 +75,8 @@ describe('App Integrations tests', () => {
   });
 
   afterAll(async () => {
+    console.log('Finaklizando la conneccion', app.typormConnection.isConnected);
     await app.close();
+    console.log('Finalizando la conneccion', app.typormConnection.isConnected);
   });
 });

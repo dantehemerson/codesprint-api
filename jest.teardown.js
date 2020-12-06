@@ -6,5 +6,5 @@ module.exports = function () {
 	);
 	console.log(stdout.toString('utf-8'));
 	// TODO: Tests are not finish by it self. Finish manually. Solve It
-	process.exit(0);
+	// process.exit(0);
 };
