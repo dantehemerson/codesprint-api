@@ -20,7 +20,7 @@ export class UserLoginService {
   ) {}
 
   async execute(email: string, password: string): Promise<IUserLoginResponse> {
-    const user = await this.usersRepository.findByEmail(email);
+    const user = await this.usersRepository.findByEmailAndReturnPassword(email);
 
     if (!user) {
       throw new UnauthorizedError('The email address or password is incorrect');

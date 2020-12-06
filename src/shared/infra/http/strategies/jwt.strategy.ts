@@ -5,7 +5,7 @@ import {
   Strategy as JwtStrategy,
   StrategyOptions as JwtStrategyOptions,
 } from 'passport-jwt';
-import { UnauthorizedError } from 'routing-controllers';
+import { NotFoundError, UnauthorizedError } from 'routing-controllers';
 import { container } from 'tsyringe';
 
 const passportOptions: JwtStrategyOptions = {
@@ -18,13 +18,12 @@ export const jwtStrategy = () =>
     const findUser = container.resolve(FindUserService);
     findUser
       .execute(jwtPayload.userId)
-      .then(user => {
-        if (!user) {
-          return done(new UnauthorizedError('User not found'));
-        }
-        return done(undefined, user);
-      })
+      .then(user => done(undefined, user))
       .catch(error => {
+        if (error instanceof NotFoundError) {
+          /** Rethrow UserNotFoundErroras UnauthorizedError */
+          return done(new UnauthorizedError(error.message));
+        }
         return done(error);
       });
   });

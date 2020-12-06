@@ -5,6 +5,7 @@ import { connection } from '@shared/infra/typeorm';
 import { defaultMetadataStorage } from 'class-transformer/storage';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { Application } from 'express';
+import http from 'http';
 import passport from 'passport';
 import { join } from 'path';
 import 'reflect-metadata';
@@ -15,16 +16,13 @@ import {
   RoutingControllersOptions,
 } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
-import { Connection } from 'typeorm';
 import * as swaggerUiExpress from 'swagger-ui-express';
-
-// const swaggerTheme = require('swagger-ui-themes/themes/3.x/theme-flattop.css');
-
-// console.log('Dante ~ file: app.ts ~ line 21 ~ swaggerTheme', swaggerTheme);
+import { Connection } from 'typeorm';
 
 export class App {
   public typormConnection: Connection;
   private expressApp: Application;
+  private server: http.Server;
   private readonly routingControllersOptions: RoutingControllersOptions = {
     controllers: [
       join(
@@ -41,7 +39,7 @@ export class App {
 
     this.typormConnection = await connection;
     this.expressApp = createExpressServer(this.routingControllersOptions);
-
+    this.server = http.createServer(this.expressApp);
     this.initMiddleware();
 
     this.expressApp.get('/', (_, res) => {
@@ -99,22 +97,23 @@ export class App {
   }
 
   getServer() {
-    return this.expressApp;
+    return this.server;
   }
 
   getConnnection() {
     return this.typormConnection;
   }
 
-  listen(port?: number) {
-    return new Promise(resolve => {
-      this.expressApp.listen(port, () => {
-        return resolve();
-      });
-    });
+  async listen(port?: number) {
+    return new Promise((resolve, reject) =>
+      this.server.listen(port).once('listening', resolve).once('error', reject),
+    );
   }
 
   async close() {
     await this.getConnnection().close();
+    await new Promise((resolve, reject) =>
+      this.server.close().once('close', resolve).once('error', reject),
+    );
   }
 }

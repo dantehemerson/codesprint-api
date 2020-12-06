@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 5 # Reasonable time for tests to finish
 
     strategy:
       matrix:

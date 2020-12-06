@@ -5,9 +5,6 @@ import {
   IsOptional,
   IsString,
   IsUrl,
-  IsUUID,
-  Max,
-  MaxLength,
 } from 'class-validator';
 
 export class CreateChallengeDto {

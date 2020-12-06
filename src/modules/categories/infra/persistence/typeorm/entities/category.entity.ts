@@ -1,25 +1,16 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
+  Entity,
   Index,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('categories')
 export class Category {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ nullable: true })
-  parent_id: string;
-
-  @ManyToOne(() => Category)
-  @JoinColumn({ name: 'parent_id' })
-  parent: Category;
 
   /** Color to diferenciate the category */
   @Column({ default: '#00000000' })
