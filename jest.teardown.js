@@ -1,11 +1,12 @@
 const { execSync } = require('child_process');
 
-module.exports = function () {
+module.exports = async function (reas) {
   console.log('Eliminando la imagen de docker')
 	const stdout = execSync(
 		'docker-compose -p docker_app_test -f docker-compose.test.yml down',
 	);
-	console.log(stdout.toString('utf-8'));
+	// console.log(" RESULT ", stdout.toString('utf-8'));
 	// TODO: Tests are not finish by it self. Finish manually. Solve It
-	// process.exit(0);
+  console.log("Finished")
+	// process.exit(1);
 };
