@@ -5,6 +5,7 @@ import { getMetadataArgsStorage } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import * as swaggerUiExpress from 'swagger-ui-express';
 import { routingControllersOptions } from '../options/routing-controler.options';
+import { version, license } from '../../../../../package.json';
 
 export function createSwaggerDocsRouter() {
   const swaggeOASRouter = express.Router();
@@ -32,7 +33,11 @@ export function createSwaggerDocsRouter() {
       description:
         'It provides an overview around our available endpoints, *you need to be authenticated to use our API*',
       title: 'CodeSprint API',
-      version: '0.1.0',
+      license: {
+        name: license,
+        url: 'https://github.com/dantehemerson/codesprint/blob/master/LICENSE',
+      },
+      version,
     },
   });
 
