@@ -1,8 +1,19 @@
 {
 	"name": "codesprint",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"main": "index.js",
-	"license": "MIT",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Dante Calderon",
+      "email": "mail@dantecaderon.dev",
+      "url": "https://dantecalderon.dev"
+    },
+    {
+      "name": "Steve Cruz",
+      "email": "steve.silverio.cruz@gmail.com"
+    }
+  ],
 	"scripts": {
 		"build": "tsc",
 		"test": "jest",
