@@ -7,8 +7,8 @@ module.exports = {
 	collectCoverageFrom: ['<rootDir>/src/modules/**/services/*.ts'],
 	coverageDirectory: 'coverage',
 	coverageReporters: ['text-summary', 'lcov'],
-	globalSetup: './jest.setup.js',
-	globalTeardown: './jest.teardown.js',
+	globalSetup: './jest.setup.ts',
+	globalTeardown: './jest.teardown.ts',
 	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
 		prefix: '<rootDir>/src/',
 	}),

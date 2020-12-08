@@ -1,7 +1,6 @@
 import '@shared/container';
 import { authorizationChecker } from '@shared/infra/http/routing-controllers/authorization-checker.helper';
 import { jwtStrategy } from '@shared/infra/http/strategies/jwt.strategy';
-import { connection } from '@shared/infra/typeorm';
 import { defaultMetadataStorage } from 'class-transformer/storage';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { Application } from 'express';
@@ -17,7 +16,8 @@ import {
 } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import * as swaggerUiExpress from 'swagger-ui-express';
-import { Connection } from 'typeorm';
+import { Connection, ConnectionOptions, createConnection } from 'typeorm';
+import { IAppOptions } from './interfaces/app-options.interface';
 
 export class App {
   public typormConnection: Connection;
@@ -34,10 +34,14 @@ export class App {
     currentUserChecker: async (action: Action) => action.request.user,
   };
 
+  constructor(private readonly options: IAppOptions = {}) {}
+
   async init() {
     passport.use(jwtStrategy());
 
-    this.typormConnection = await connection;
+    this.typormConnection = await createConnection(
+      this.options?.connectionOptions as ConnectionOptions,
+    );
     this.expressApp = createExpressServer(this.routingControllersOptions);
     this.server = http.createServer(this.expressApp);
     this.initMiddleware();
