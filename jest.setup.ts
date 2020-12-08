@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { execSync } from 'child_process';
+import { App } from '@shared/infra/http/app';
 import { setup } from './src/__tests__/helpers/jest-global.setup';
 
 export default async function () {
