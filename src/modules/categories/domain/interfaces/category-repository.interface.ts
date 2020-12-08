@@ -1,4 +1,3 @@
-import { CreateCategoryDto } from '@modules/categories/domain/dto/create-category.dto';
 import { Category } from '@modules/categories/infra/persistence/typeorm/entities/category.entity';
 
 export interface ICategoriesRepository {
