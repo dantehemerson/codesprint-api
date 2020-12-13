@@ -4,6 +4,7 @@ import { connection } from '@shared/infra/typeorm';
 import { Application } from 'express';
 import http from 'http';
 import passport from 'passport';
+import cors from 'cors';
 import 'reflect-metadata';
 import { createExpressServer } from 'routing-controllers';
 import { Connection } from 'typeorm';
@@ -35,6 +36,7 @@ export class App {
 
   private initMiddleware() {
     this.expressApp.use(passport.initialize());
+    this.expressApp.use(cors());
   }
 
   private initCustomRoutes() {
