@@ -33,6 +33,7 @@ describe(UpdateUserService.name, () => {
     const { id } = await fakeUsersRepository.create({
       email: 'already@email.com',
       name: 'Already',
+      username: 'already',
       password: '123',
     });
 

@@ -41,6 +41,7 @@ describe('App Integrations tests', () => {
           .send({
             name: 'Dante',
             email: 'naguadtl@gmail.com',
+            username: 'dante',
             password: 'dante',
           })
           .expect('Content-Type', /json/)
@@ -52,6 +53,7 @@ describe('App Integrations tests', () => {
               email: 'naguadtl@gmail.com',
               id: expect.stringMatching(aUUID),
               name: 'Dante',
+              username: 'dante',
               updated_at: expect.stringMatching(aISODate),
             });
           });

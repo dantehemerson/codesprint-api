@@ -21,6 +21,12 @@ export class FakeUsersRepository implements IUsersRepository {
     return findUser;
   }
 
+  public async findByUsername(username: string): Promise<Optional<User>> {
+    const findUser = this.users.find(user => user.username === username);
+
+    return findUser;
+  }
+
   public async findByEmailAndReturnPassword(
     email: string,
   ): Promise<Optional<User>> {
@@ -36,6 +42,7 @@ export class FakeUsersRepository implements IUsersRepository {
       id: faker.random.uuid(),
       name: userData.name,
       email: userData.email,
+      username: userData.username,
       password: userData.password,
       created_at: new Date(),
       updated_at: new Date(),

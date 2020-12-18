@@ -43,6 +43,7 @@ describe(UpdateUserService.name, () => {
       await fakeUsersRepository.create({
         email: 'already@email.com',
         name: 'Already',
+        username: 'john',
         password: '123',
       });
 
@@ -50,6 +51,7 @@ describe(UpdateUserService.name, () => {
       const { id } = await fakeUsersRepository.create({
         email: 'john@email.com',
         name: 'John',
+        username: 'john',
         password: 'abc',
       });
 
@@ -79,6 +81,7 @@ describe(UpdateUserService.name, () => {
       const { id } = await fakeUsersRepository.create({
         email: 'john@email.com',
         name: 'John',
+        username: 'john',
         password: 'abc',
       });
 
@@ -109,6 +112,7 @@ describe(UpdateUserService.name, () => {
       const { id } = await fakeUsersRepository.create({
         email: 'john@email.com',
         name: 'John',
+        username: 'john',
         password: 'abc',
       });
 
@@ -139,6 +143,7 @@ describe(UpdateUserService.name, () => {
       const { id } = await fakeUsersRepository.create({
         email: 'john@email.com',
         name: 'John',
+        username: 'john',
         password: 'abc',
       });
 
@@ -164,6 +169,7 @@ describe(UpdateUserService.name, () => {
       const { id } = await fakeUsersRepository.create({
         email: 'john@email.com',
         name: 'John',
+        username: 'john',
         password: 'abc',
       });
 
@@ -185,6 +191,7 @@ describe(UpdateUserService.name, () => {
     const { id, updated_at } = await fakeUsersRepository.create({
       email: 'john@email.com',
       name: 'John',
+      username: 'john',
       password: 'abc',
     });
 

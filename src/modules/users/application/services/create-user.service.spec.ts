@@ -22,6 +22,7 @@ describe('CreateUserService', () => {
       name: 'Uther the Lightbringer',
       email: 'uther@blizzard.com',
       password: 'silverorder',
+      username: 'uther',
     };
 
     const spyHashProvider = jest.spyOn(fakeHashProvider, 'generateHash');
@@ -39,6 +40,7 @@ describe('CreateUserService', () => {
     await fakeUsersRepository.create({
       name: 'John',
       email: 'john@email.com',
+      username: 'john69',
       password: 'a',
     });
 
@@ -46,6 +48,7 @@ describe('CreateUserService', () => {
       await createUserService.execute({
         name: 'John2',
         email: 'john@email.com',
+        username: 'john69',
         password: 'b',
       });
     } catch (error) {

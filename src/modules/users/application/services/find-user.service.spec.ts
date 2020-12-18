@@ -34,6 +34,7 @@ describe(UpdateUserService.name, () => {
     const userData: CreateUserDto = {
       email: 'already@email.com',
       name: 'Already',
+      username: 'aready',
       password: '123',
     };
     const { id } = await fakeUsersRepository.create(userData);

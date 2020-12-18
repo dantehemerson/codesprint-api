@@ -49,6 +49,7 @@ describe(UserLoginService.name, () => {
     const user: CreateUserDto = {
       email: 'jhon@email.com',
       name: 'John',
+      username: 'john',
       password: 'abc',
     };
     const spyCompareHashPassword = jest.spyOn(fakeHashProvider, 'compareHash');
@@ -71,6 +72,7 @@ describe(UserLoginService.name, () => {
     const user: CreateUserDto = {
       email: 'jhon@email.com',
       name: 'John',
+      username: 'john',
       password: 'abc',
     };
     const { id } = await fakeUsersRepository.create(user);
@@ -94,6 +96,7 @@ describe(UserLoginService.name, () => {
     const user: CreateUserDto = {
       email: 'jhon@email.com',
       name: 'John',
+      username: 'john',
       password: 'abc',
     };
     const spyCompareHashPassword = jest.spyOn(fakeHashProvider, 'compareHash');
