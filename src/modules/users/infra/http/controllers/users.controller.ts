@@ -22,6 +22,7 @@ import { FindUserService } from '@modules/users/application/services/find-user.s
 import { UserLoginService } from '@modules/users/application/services/user-login.service';
 import { UserLoginDto } from '@modules/users/domain/dto/user-login.dto';
 import { IUserLoginResponse } from '@modules/users/domain/interfaces/user-login-response.interface';
+import { FindBy } from '@modules/users/domain/enums/find-by.enum';
 
 @JsonController('/users')
 export default class UsersController {
@@ -48,7 +49,9 @@ export default class UsersController {
   ): Promise<Omit<User, 'password'> | undefined> {
     const findUser = container.resolve(FindUserService);
 
-    const user = await findUser.execute(id);
+    const by = id.includes('-') ? FindBy.id : FindBy.username;
+
+    const user = await findUser.execute(by, id);
 
     return user;
   }

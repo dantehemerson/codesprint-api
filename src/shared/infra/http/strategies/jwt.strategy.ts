@@ -1,5 +1,6 @@
 import { authConfig } from '@config/auth.config';
 import { FindUserService } from '@modules/users/application/services/find-user.service';
+import { FindBy } from '@modules/users/domain/enums/find-by.enum';
 import {
   ExtractJwt,
   Strategy as JwtStrategy,
@@ -17,7 +18,7 @@ export const jwtStrategy = () =>
   new JwtStrategy(passportOptions, (jwtPayload, done) => {
     const findUser = container.resolve(FindUserService);
     findUser
-      .execute(jwtPayload.userId)
+      .execute(FindBy.id, jwtPayload.userId)
       .then(user => done(undefined, user))
       .catch(error => {
         if (error instanceof NotFoundError) {
