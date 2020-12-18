@@ -13,6 +13,7 @@ export class ChallengesRepository implements IChallengesRepository {
     return this.ormRepository
       .createQueryBuilder('challenge')
       .leftJoinAndSelect('challenge.createdBy', 'createdBy')
+      .leftJoinAndSelect('challenge.categories', 'categories')
       .getMany();
   }
 

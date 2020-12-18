@@ -12,7 +12,7 @@ export const routingControllersOptions: RoutingControllersOptions = {
   authorizationChecker,
   currentUserChecker: async (action: Action) => action.request.user,
   cors: {
-    origin: 'http://localhost:3000',
+    origin: '*',
     allowedHeaders: '*',
   },
 };
