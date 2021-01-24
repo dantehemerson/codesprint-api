@@ -1,10 +1,10 @@
+import 'reflect-metadata';
 import '@shared/container';
 import { jwtStrategy } from '@shared/infra/http/strategies/jwt.strategy';
 import { connection } from '@shared/infra/typeorm';
 import { Application } from 'express';
 import http from 'http';
 import passport from 'passport';
-import 'reflect-metadata';
 import { createExpressServer } from 'routing-controllers';
 import { Connection } from 'typeorm';
 import { createSwaggerDocsRouter } from './docs/swagger-oas.router';
